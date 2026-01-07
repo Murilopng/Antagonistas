@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Sphere | Engenharia de Poderes</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8; /* Azul Neon */
+            --accent-hover: #0ea5e9;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #eab308;
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Cabeçalho */
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 { margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+        p.subtitle { color: var(--text-muted); margin-top: 5px; }
+
+        /* Cartões */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 { border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 0; font-size: 1.2rem; }
+        h3 { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid #334155; padding-bottom: 5px;}
+
+        /* Form Elements */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem; }
+        
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            background-color: var(--bg-dark);
+            border: 1px solid #475569;
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        select:focus, input:focus { outline: 1px solid var(--accent); }
+
+        .counter-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .counter-controls { display: flex; align-items: center; gap: 10px; }
+        .counter-btn {
+            background: var(--bg-dark);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .counter-btn:hover { background: var(--accent); color: var(--bg-dark); }
+        .counter-val { width: 30px; text-align: center; font-weight: bold; }
+
+        /* Painel Lateral (Sticky) */
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .big-number { font-size: 3rem; font-weight: bold; color: var(--accent); display: block; line-height: 1; }
+        .label-result { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            background: #334155;
+        }
+
+        .tier-1 { background: var(--success); color: #000; }
+        .tier-2 { background: var(--warning); color: #000; }
+        .tier-3 { background: #f97316; color: #fff; }
+        .tier-4 { background: var(--danger); color: #fff; }
+        .tier-5 { background: #a855f7; color: #fff; box-shadow: 0 0 10px #a855f7; }
+
+        /* Sobrecarga Slider */
+        .slider-container { margin-top: 20px; }
+        input[type=range] { width: 100%; margin: 10px 0; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+        }
+
+        .cost-display { font-size: 0.8em; color: var(--accent); float: right; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Blue Sphere</h1>
+        <p class="subtitle">Protocolo de Engenharia de Poderes v2.0</p>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2>1. Chassi (Estrutura Básica)</h2>
+            <div class="form-group">
+                <label>Nome da Habilidade</label>
+                <input type="text" id="powerName" placeholder="Ex: Bola de Fogo Tática">
+            </div>
+
+            <div class="form-group">
+                <label>Tempo de Execução</label>
+                <select id="actionType" onchange="calculate()">
+                    <option value="0">Ação Padrão (0 PF)</option>
+                    <option value="0">Ação Complexa - 2 Turnos (0 PF)</option>
+                    <option value="30">Reação - Instantâneo (30 PF)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Alcance</label>
+                <select id="rangeType" onchange="calculate()">
+                    <option value="0">Pessoal (0 PF)</option>
+                    <option value="5">Toque (5 PF)</option>
+                    <option value="10">Curto - 9m (10 PF)</option>
+                    <option value="15">Médio - 18m (15 PF)</option>
+                    <option value="20">Longo - 36m+ (20 PF)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Duração</label>
+                <select id="durationType" onchange="calculate()">
+                    <option value="0">Instantâneo (0 PF)</option>
+                    <option value="3">Sustentado (3 PF)</option>
+                    <option value="30">Passivo (30 PF)</option>
+                    <option value="50">Cena Inteira (50 PF)</option>
+                </select>
+            </div>
+
+            <h3>Área e Alvos Extras</h3>
+            <div class="counter-wrapper">
+                <span>Buff Pessoal (Eu Mesmo) <span class="cost-display">5 PF</span></span>
+                <div class="counter-controls">
+                    <input type="checkbox" id="selfBuff" onchange="calculate()" style="width: 20px; height: 20px;">
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>Alvos Adicionais (+1) <span class="cost-display">10 PF/cada</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('targetCount', -1)">-</button>
+                    <span id="targetCount" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('targetCount', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>Área de Efeito (+2m²) <span class="cost-display">10 PF/cada</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('areaCount', -1)">-</button>
+                    <span id="areaCount" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('areaCount', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>2. Potência (Dados)</h2>
+            <p style="font-size: 0.8em; color: #94a3b8;">Adicione dados de dano ou cura. 1 PF por face do dado.</p>
+            
+            <div class="counter-wrapper">
+                <span>d4 <span class="cost-display">4 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d4qty', -1)">-</button>
+                    <span id="d4qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d4qty', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>d6 <span class="cost-display">6 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d6qty', -1)">-</button>
+                    <span id="d6qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d6qty', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>d8 <span class="cost-display">8 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d8qty', -1)">-</button>
+                    <span id="d8qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d8qty', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>d10 <span class="cost-display">10 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d10qty', -1)">-</button>
+                    <span id="d10qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d10qty', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>d12 <span class="cost-display">12 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d12qty', -1)">-</button>
+                    <span id="d12qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d12qty', 1)">+</button>
+                </div>
+            </div>
+            <div class="counter-wrapper">
+                <span>d20 <span class="cost-display">20 PF</span></span>
+                <div class="counter-controls">
+                    <button class="counter-btn" onclick="updateCounter('d20qty', -1)">-</button>
+                    <span id="d20qty" class="counter-val">0</span>
+                    <button class="counter-btn" onclick="updateCounter('d20qty', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3. Módulos de Efeito</h2>
+            <p style="font-size: 0.8em; color: #94a3b8;">Máximo de 3 compras por módulo.</p>
+
+            <h3>Ofensivos</h3>
+            <div id="offensive-list"></div>
+            
+            <h3>Defensivos</h3>
+            <div id="defensive-list"></div>
+
+            <h3>Mobilidade</h3>
+            <div id="mobility-list"></div>
+
+            <h3>Controle & Utilidade</h3>
+            <div id="control-list"></div>
+
+            <h3>Alteração & Buffs</h3>
+            <div id="buff-list"></div>
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <div class="card">
+            <h2>Sumário do Projeto</h2>
+            
+            <div class="result-box">
+                <span class="label-result">Custo Total de Fluxo</span>
+                <span id="totalCost" class="big-number">0</span>
+                <div id="tierBadge" class="tier-badge tier-1">NÍVEL 1</div>
+            </div>
+
+            <div class="form-group slider-container">
+                <label>Sobrecarga (Redução de Custo)</label>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: var(--accent);">
+                    <span>+<span id="overchargeVal">0</span> Esforço</span>
+                    <span>-<span id="discountVal">0</span> PF</span>
+                </div>
+                <input type="range" id="overcharge" min="0" max="10" value="0" oninput="calculate()">
+                <p style="font-size: 0.75em; color: #94a3b8; margin-top: 5px;">
+                    Aumenta o custo de ativação para reduzir o custo de criação (3 PF por ponto).
+                </p>
+            </div>
+
+            <hr style="border-color: #334155;">
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Custo de Ativação:</span>
+                <strong style="color: var(--accent);"><span id="activationCost">1</span> Cansaço</strong>
+            </div>
+
+            <div style="background: #0f172a; padding: 10px; border-radius: 4px; font-size: 0.85em;">
+                <strong style="color: var(--text-muted);">RESUMO TÉCNICO:</strong><br>
+                <div id="technicalSummary" style="margin-top: 5px;">...</div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+    // DADOS DOS MÓDULOS
+    const modules = {
+        offensive: [
+            { name: "Projétil Adicional", cost: 15, max: 3 },
+            { name: "Fluxo Contínuo/Laser", cost: 20, max: 3 },
+            { name: "Corpo a Corpo Pesado", cost: 7, max: 3 },
+            { name: "Vampirismo", cost: 25, max: 3 },
+            { name: "Adicionar Condição", cost: 0, max: 1, note: "Definir custo" } // Custo variavel
+        ],
+        defensive: [
+            { name: "Barreira/Escudo (10 RD)", cost: 20, max: 3 },
+            { name: "Resistência Elemental (5 RD)", cost: 12, max: 3 },
+            { name: "Resiliência Ambiental", cost: 12, max: 3 },
+            { name: "Regeneração", cost: 25, max: 3 },
+            { name: "Intangibilidade", cost: 16, max: 3 }
+        ],
+        mobility: [
+            { name: "Voo (+3m)", cost: 10, max: 3 },
+            { name: "Super Velocidade (+3m)", cost: 10, max: 3 },
+            { name: "Teleporte (10m)", cost: 15, max: 3 },
+            { name: "Abrir Portais (50m)", cost: 25, max: 3 },
+            { name: "Escalada", cost: 10, max: 3 },
+            { name: "Planar", cost: 5, max: 1 }
+        ],
+        control: [
+            { name: "Aprisionamento (+10 DT)", cost: 18, max: 3 },
+            { name: "Manipulação Mental (+10 DT)", cost: 25, max: 3 },
+            { name: "Leitura Mental (+10 DT)", cost: 20, max: 3 },
+            { name: "Telecinese", cost: 25, max: 3 },
+            { name: "Criar Suporte (Simples)", cost: 10, max: 3 },
+            { name: "Criar Item (Complexo)", cost: 25, max: 3 },
+            { name: "Controle de Animais", cost: 10, max: 3 }
+        ],
+        buffs: [
+            { name: "Aumento Atributo (+1)", cost: 10, max: 1 },
+            { name: "Bônus Perícia (+5)", cost: 22, max: 3 },
+            { name: "Mudança de Atributo", cost: 25, max: 1 },
+            { name: "Mudar Aparência", cost: 20, max: 1 },
+            { name: "Invocação/Parceiro", cost: 45, max: 1 },
+            { name: "Ação Extra", cost: 100, max: 1 }
+        ]
+    };
+
+    // FUNÇÃO PARA GERAR HTML DOS MÓDULOS
+    function renderModules(category, elementId) {
+        const container = document.getElementById(elementId);
+        modules[category].forEach((mod, index) => {
+            const id = `mod-${category}-${index}`;
+            const html = `
+                <div class="counter-wrapper">
+                    <span>${mod.name} <span class="cost-display">${mod.cost} PF</span></span>
+                    <div class="counter-controls">
+                        <button class="counter-btn" onclick="updateCounter('${id}', -1, ${mod.max})">-</button>
+                        <span id="${id}" class="counter-val module-counter" data-cost="${mod.cost}">0</span>
+                        <button class="counter-btn" onclick="updateCounter('${id}', 1, ${mod.max})">+</button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+    }
+
+    // RENDERIZAR TUDO AO CARREGAR
+    window.onload = function() {
+        renderModules('offensive', 'offensive-list');
+        renderModules('defensive', 'defensive-list');
+        renderModules('mobility', 'mobility-list');
+        renderModules('control', 'control-list');
+        renderModules('buffs', 'buff-list');
+        calculate();
+    };
+
+    // GERENCIADOR DE CONTADORES
+    window.updateCounter = function(id, change, max = 99) {
+        const element = document.getElementById(id);
+        let val = parseInt(element.innerText);
+        val += change;
+        if (val < 0) val = 0;
+        if (val > max) val = max;
+        element.innerText = val;
+        calculate();
+    }
+
+    // LÓGICA DE CÁLCULO PRINCIPAL
+    window.calculate = function() {
+        let totalPF = 0;
+        let summaryText = [];
+
+        // 1. Chassi
+        const actionCost = parseInt(document.getElementById('actionType').value);
+        const rangeCost = parseInt(document.getElementById('rangeType').value);
+        const durationCost = parseInt(document.getElementById('durationType').value);
+        const selfBuffCost = document.getElementById('selfBuff').checked ? 5 : 0;
+        const targets = parseInt(document.getElementById('targetCount').innerText);
+        const area = parseInt(document.getElementById('areaCount').innerText);
+        
+        totalPF += actionCost + rangeCost + durationCost + selfBuffCost + (targets * 10) + (area * 10);
+        
+        // Texto Chassi
+        const actionName = document.getElementById('actionType').options[document.getElementById('actionType').selectedIndex].text.split('(')[0];
+        const rangeName = document.getElementById('rangeType').options[document.getElementById('rangeType').selectedIndex].text.split('(')[0];
+        summaryText.push(`<strong>Chassi:</strong> ${actionName}, ${rangeName}.`);
+        if(area > 0) summaryText.push(`Area: +${area*2}m².`);
+        if(targets > 0) summaryText.push(`Alvos Extras: +${targets}.`);
+
+        // 2. Dados
+        const d4 = parseInt(document.getElementById('d4qty').innerText) * 4;
+        const d6 = parseInt(document.getElementById('d6qty').innerText) * 6;
+        const d8 = parseInt(document.getElementById('d8qty').innerText) * 8;
+        const d10 = parseInt(document.getElementById('d10qty').innerText) * 10;
+        const d12 = parseInt(document.getElementById('d12qty').innerText) * 12;
+        const d20 = parseInt(document.getElementById('d20qty').innerText) * 20;
+        const diceCost = d4 + d6 + d8 + d10 + d12 + d20;
+        
+        totalPF += diceCost;
+        if(diceCost > 0) summaryText.push(`<strong>Potência:</strong> ${diceCost} PF em dados.`);
+
+        // 3. Módulos
+        const counters = document.querySelectorAll('.module-counter');
+        let moduleCost = 0;
+        let activeModules = [];
+        counters.forEach(cnt => {
+            const qty = parseInt(cnt.innerText);
+            const cost = parseInt(cnt.getAttribute('data-cost'));
+            if (qty > 0) {
+                moduleCost += (qty * cost);
+                // Pegar nome
+                const name = cnt.parentElement.parentElement.querySelector('span').firstChild.textContent;
+                activeModules.push(`${name} (x${qty})`);
+            }
+        });
+        totalPF += moduleCost;
+        if(activeModules.length > 0) summaryText.push(`<strong>Efeitos:</strong> ${activeModules.join(', ')}.`);
+
+        // 4. Sobrecarga
+        const overcharge = parseInt(document.getElementById('overcharge').value);
+        const discount = overcharge * 3;
+        document.getElementById('overchargeVal').innerText = overcharge;
+        document.getElementById('discountVal').innerText = discount;
+        
+        let finalPF = totalPF - discount;
+        if (finalPF < 0) finalPF = 0; // Não pode ser negativo
+
+        // 5. Determinar Nível
+        let tier = 1;
+        let badgeClass = 'tier-1';
+        let badgeText = 'NÍVEL 1 (Iniciante)';
+
+        if (finalPF > 100) { tier = 5; badgeClass = 'tier-5'; badgeText = 'NÍVEL 5 (LENDA)'; }
+        else if (finalPF > 75) { tier = 4; badgeClass = 'tier-4'; badgeText = 'NÍVEL 4 (Mestre)'; }
+        else if (finalPF > 50) { tier = 3; badgeClass = 'tier-3'; badgeText = 'NÍVEL 3 (Elite)'; }
+        else if (finalPF > 25) { tier = 2; badgeClass = 'tier-2'; badgeText = 'NÍVEL 2 (Veterano)'; }
+
+        // 6. Custo de Ativação
+        // Se Ação for Passiva (30 PF) ou Cena (50 PF), a lógica pode mudar, mas a regra geral é Tier + 1 + Sobrecarga
+        // Se Passiva, custo é "Nulo" ou "Reserva". Vou manter a regra padrão de ativação por enquanto.
+        let activation = tier + overcharge;
+        // Regra de manutenção (metade) se for sustentada
+        if(durationCost === 3) {
+            summaryText.push(`<em>Manutenção: ${Math.ceil(activation/2)}/turno.</em>`);
+        }
+        if(durationCost === 30) {
+            activation = "N/A (Passivo)";
+        }
+
+        // ATUALIZAR DOM
+        document.getElementById('totalCost').innerText = finalPF;
+        const badge = document.getElementById('tierBadge');
+        badge.className = `tier-badge ${badgeClass}`;
+        badge.innerText = badgeText;
+        document.getElementById('activationCost').innerText = activation;
+        
+        // Atualizar Resumo
+        const name = document.getElementById('powerName').value || "Habilidade Sem Nome";
+        document.getElementById('technicalSummary').innerHTML = `
+            <strong>${name}</strong><br>
+            ${summaryText.join('<br>')}
+        `;
+    }
+</script>
+
+</body>
+</html>

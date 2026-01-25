@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engenharia de Fluxo | ANTAGONISTAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS OTIMIZADO */
+        :root { --bs-blue: #36A3EB; --bs-yellow: #F2E96B; --bs-red: #F25C5C; --dark: #1a1a1a; --white: #fff; --bg: #f4f4f9; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding-bottom: 80px; }
+        
+        header { background: var(--bs-blue); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .logo { font-family: 'Permanent Marker'; font-size: 1.5rem; color: white; text-decoration: none; }
+        .nav-btn { background: rgba(0,0,0,0.2); color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; transition:0.3s; }
+        .nav-btn:hover { background: var(--bs-yellow); color: var(--dark); }
+
+        .container { max-width: 1300px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+        .card { background: white; border: 2px solid var(--dark); border-radius: 10px; padding: 25px; margin-bottom: 20px; box-shadow: 5px 5px 0 rgba(0,0,0,0.05); }
+        .card-title { font-family: 'Orbitron'; color: var(--bs-blue); font-size: 1.3rem; border-bottom: 2px solid var(--bs-yellow); padding-bottom: 8px; margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* Inputs */
+        .input-group { margin-bottom: 15px; }
+        label { font-weight: 700; color: var(--bs-red); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        select, input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Rajdhani'; font-size: 1rem; background: #fafafa; }
+        
+        /* DAMAGE TYPES (RADIO GRID) */
+        .damage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+        .dmg-option { display: flex; align-items: center; gap: 8px; border: 1px solid #ddd; padding: 8px; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .dmg-option:hover { background: #f0f0f0; border-color: var(--bs-blue); }
+        .dmg-option input { width: auto; }
+
+        /* DICE COUNTERS */
+        .dice-list { display: grid; gap: 10px; }
+        .dice-row { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
+        .dice-label { font-weight: bold; font-family: 'Orbitron'; }
+        .dice-controls { display: flex; align-items: center; gap: 10px; }
+        .btn-counter { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ccc; background: white; font-weight: bold; cursor: pointer; }
+        .btn-counter:hover { background: var(--bs-blue); color: white; }
+        .dice-qty { font-weight: bold; font-size: 1.2rem; width: 30px; text-align: center; }
+
+        /* CHECKBOX GRID */
+        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+        .check-item { display: flex; align-items: center; background: #f9f9f9; padding: 10px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
+        .check-item:hover { border-color: var(--bs-blue); background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .check-item input { margin-right: 10px; width: auto; }
+        .cost-badge { position: absolute; right: 10px; font-size: 0.75rem; background: var(--dark); color: var(--bs-yellow); padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        
+        /* CATEGORY HEADERS */
+        .category-header { grid-column: 1 / -1; font-weight: bold; color: var(--bs-blue); margin-top: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-family: 'Orbitron'; }
+
+        /* COUNTER MODULE (Para Multialvo) */
+        .counter-mod { display: flex; justify-content: space-between; align-items: center; background: #f0f8ff; padding: 10px; border: 1px solid #bcd; border-radius: 6px; margin-bottom: 10px; }
+
+        /* PAINEL LATERAL */
+        .sidebar-panel { position: sticky; top: 100px; height: fit-content; }
+        .result-box { background: var(--dark); color: white; padding: 25px; border-radius: 10px; text-align: center; border: 2px solid var(--bs-blue); margin-bottom: 20px; }
+        .total-flux { font-family: 'Orbitron'; font-size: 4rem; color: var(--bs-yellow); margin: 10px 0; text-shadow: 0 0 10px rgba(242, 233, 107, 0.5); }
+        .tier-status { font-weight: bold; padding: 8px; border-radius: 4px; text-transform: uppercase; font-family: 'Orbitron'; }
+        
+        .status-ok { background: #4caf50; color: white; }
+        .status-warn { background: #ff9800; color: white; }
+        .status-error { background: var(--bs-red); color: white; }
+
+        .overload-box { background: #eef; padding: 15px; border-radius: 8px; border: 1px dashed #999; margin-top: 20px; }
+        input[type=range] { width: 100%; margin: 15px 0; }
+        
+        .btn-save { width: 100%; padding: 18px; background: var(--bs-blue); color: white; border: none; font-family: 'Orbitron'; font-size: 1.3rem; font-weight: bold; cursor: pointer; border-radius: 8px; box-shadow: 0 5px 0 #2a8bc7; transition: 0.2s; margin-top: 20px; }
+        .btn-save:hover { background: var(--bs-yellow); color: var(--dark); box-shadow: 0 5px 0 #d4ca5b; transform: translateY(-2px); }
+        .btn-save:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; color: #888; }
+
+        /* Adicione isso ao CSS existente no power-creator.html */
+
+        .small-controls {
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
+            margin-right: 10px;
+        }
+        .small-controls button {
+            width: 25px; 
+            height: 25px; 
+            font-size: 0.9rem;
+            padding: 0;
+        }
+        .active-mod {
+            background-color: #e3f2fd !important;
+            border-color: var(--bs-blue) !important;
+        }
+        .stackable {
+            /* Diferencia visualmente itens que podem acumular */
+            border-left: 4px solid var(--bs-yellow);
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar-panel { position: static; margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">ANTAGONISTAS</a>
+        <button onclick="goBack()" class="nav-btn">VOLTAR PARA FICHA</button>
+    </header>
+
+    <div class="container">
+        
+        <div class="main-column">
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-pen-nib"></i> IDENTIFICAÇÃO</h2>
+                <div class="input-group">
+                    <label>Nome da Habilidade</label>
+                    <input type="text" id="power-name" placeholder="Ex: Lança de Plasma, Aura de Medo...">
+                </div>
+                <div class="input-group">
+                    <label>Descrição Narrativa</label>
+                    <textarea id="power-desc" rows="2" placeholder="Como o poder se manifesta visualmente?"></textarea>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-layer-group"></i> 1. ESTRUTURA BÁSICA (CHASSI)</h2>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                    <div class="input-group">
+                        <label>Tempo de Execução</label>
+                        <select id="sel-time" onchange="calcTotal()">
+                            <option value="0">Ação Padrão (0 PF)</option>
+                            <option value="-8">Ação Complexa (-8 PF)</option>
+                            <option value="30">Reação (30 PF)</option>
+                            <option value="5">Duração Fixa (5 PF/rodada)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Alcance</label>
+                        <select id="sel-range" onchange="calcTotal()">
+                            <option value="0">Pessoal (0 PF)</option>
+                            <option value="5">Toque (5 PF)</option>
+                            <option value="10">Curto - 9m (10 PF)</option>
+                            <option value="15">Médio - 18m (15 PF)</option>
+                            <option value="20">Longo - 36m (20 PF)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Área Base</label>
+                        <select id="sel-area" onchange="calcTotal()">
+                            <option value="0">Alvo Único (0 PF)</option>
+                            <option value="5">Eu Mesmo (Buff) (5 PF)</option>
+                            <option value="10">Área Pequena / Cone (+10 PF)</option>
+                            <option value="20">Área Média / Explosão (+20 PF)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Duração (Tipo)</label>
+                        <select id="sel-duration" onchange="calcTotal()">
+                            <option value="0">Instantâneo (0 PF)</option>
+                            <option value="3">Sustentado (3 PF)</option>
+                            <option value="30">Passivo (30 PF)</option>
+                            <option value="50">Cena (50 PF)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-dice-d20"></i> 2. POTÊNCIA E TIPO</h2>
+                
+                <label style="margin-bottom:10px;">TIPO DE DANO</label>
+                <div class="damage-grid" id="damage-list">
+                    </div>
+
+                <label style="margin-top:20px; margin-bottom:10px;">DADOS DE DANO (QUANTIDADE)</label>
+                <div class="dice-list" id="dice-list">
+                    </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-flask"></i> 3. MÓDULOS ESPECIAIS</h2>
+                
+                <div id="multi-modules">
+                    </div>
+
+                <div class="checkbox-grid" id="modules-list">
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="result-box">
+                <h3 style="margin:0; opacity:0.8;">CUSTO TOTAL</h3>
+                <div class="total-flux" id="display-total">0 PF</div>
+                
+                <div id="tier-display" class="tier-status status-ok">TIER 1 (Nível 1-4)</div>
+                <p style="font-size:0.8rem; margin-top:10px; color:#aaa;">Limite Atual: <span id="limit-pf">25</span> PF</p>
+            </div>
+
+            <div class="overload-box">
+                <label><i class="fa-solid fa-bolt" style="color:var(--bs-blue);"></i> SOBRECARGA</label>
+                <p style="font-size:0.8rem; color:#666;">Troca Equivalente: +1 PC de Uso = -3 PF de Custo.</p>
+                
+                <input type="range" id="overload-slider" min="0" max="10" value="0" oninput="updateOverload()">
+                
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:0.9rem;">
+                    <span style="color:var(--bs-blue);">+<span id="overload-pc">0</span> PC</span>
+                    <span style="color:var(--bs-red);">-<span id="overload-discount">0</span> PF</span>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px; text-align:center; padding:15px;">
+                <label style="color:#666;">CUSTO DE ATIVAÇÃO</label>
+                <h2 style="font-family:'Orbitron'; font-size:2.5rem; margin:5px 0; color:var(--bs-blue);">
+                    <span id="final-pc-cost">1</span> PC
+                </h2>
+                <small id="passive-warn" style="color:red; display:none;">Passivas não aceitam Sobrecarga.</small>
+            </div>
+
+            <button id="btn-save" class="btn-save" onclick="savePower()">SINTETIZAR E SALVAR</button>
+        </div>
+
+    </div>
+
+    <script src="script-creator.js"></script>
+
+</body>
+</html>

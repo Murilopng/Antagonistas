@@ -1,0 +1,216 @@
+/* Herda variáveis do style-home.css, então não preciso redeclarar :root se ambos estiverem linkados, 
+   mas vou colocar aqui para garantir que funcione isoladamente se precisar. */
+:root {
+    --bs-blue: #36A3EB;
+    --bs-yellow: #F2E96B;
+    --bs-red-light: #F25C5C;
+    --bs-red-dark: #C13B4D;
+    --white: #ffffff;
+    --dark: #1a1a1a;
+    --gray-light: #f4f4f4;
+}
+
+body {
+    background-color: var(--gray-light); /* Fundo levemente cinza para destacar os cards */
+}
+
+.heroes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 80vh;
+}
+
+/* HEADER DA SEÇÃO */
+.heroes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.page-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 3rem;
+    color: var(--bs-red-dark);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    transform: rotate(-1deg);
+}
+
+/* BOTÃO DE CRIAR NOVA FICHA */
+.btn-create-hero {
+    background-color: var(--bs-blue);
+    color: var(--white);
+    border: none;
+    padding: 15px 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--dark);
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-create-hero:hover {
+    background-color: var(--bs-yellow);
+    color: var(--dark);
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--dark);
+}
+
+.btn-create-hero:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--dark);
+}
+
+/* GRID DE CARDS */
+.heroes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* CARD DE HERÓI */
+.hero-card {
+    background: var(--white);
+    border: 3px solid var(--dark);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.hero-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: var(--bs-blue);
+}
+
+/* Cores de borda por classe (Opcional - Detalhe Legal) */
+.hero-card.class-tecnólogo { border-bottom: 5px solid var(--bs-blue); }
+.hero-card.class-monstruoso { border-bottom: 5px solid var(--bs-red-dark); }
+.hero-card.class-catalisador { border-bottom: 5px solid var(--bs-yellow); }
+
+.hero-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+.status-ok { background: #4caf50; color: white; }
+.status-busy { background: #ff9800; color: white; }
+
+.hero-img-container {
+    height: 150px;
+    background-color: #ddd;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid var(--dark);
+}
+
+.hero-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.hero-info h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--dark);
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+}
+
+.hero-meta {
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.mini-stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: var(--gray-light);
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.stat {
+    font-weight: bold;
+    color: var(--bs-red-dark);
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-edit {
+    flex: 1;
+    background: var(--bs-blue);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-edit:hover {
+    background: var(--dark);
+}
+
+.btn-delete {
+    background: transparent;
+    border: 2px solid var(--bs-red-light);
+    color: var(--bs-red-light);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background: var(--bs-red-light);
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .heroes-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-create-hero {
+        width: 100%;
+        justify-content: center;
+    }
+}

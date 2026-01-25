@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Heróis | ANTAGONISTAS</title>
+    <link rel="stylesheet" href="style-home.css">
+    <link rel="stylesheet" href="style-heroes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <div class="logo-icon">A</div>
+                <span class="logo-text">ANTAGONISTAS</span>
+            </a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="index.html">INÍCIO</a></li>
+                <li><a href="heroes.html" class="active">HERÓIS</a></li>
+                <li><a href="#">CAMPANHAS</a></li>
+                <li><a href="#">LOJA</a></li>
+                <li><a href="#" class="btn-login">PERFIL</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="heroes-container">
+        
+        <div class="heroes-header">
+            <h1 class="page-title">MEUS AGENTES</h1>
+            <button class="btn-create-hero" onclick="goToSheet()">
+                <i class="fa-solid fa-plus"></i> NOVA FICHA
+            </button>
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+            <i class="fa-regular fa-folder-open empty-icon"></i>
+            <h2>NENHUM AGENTE ENCONTRADO</h2>
+            <p>O banco de dados da Blue Sphere não possui registros seus.</p>
+            <p>Crie seu primeiro Agente para começar.</p>
+        </div>
+
+        <div class="heroes-grid" id="heroes-list">
+            </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>Sistema Antagonistas &copy; 2610</p>
+    </footer>
+
+    <script>
+        // 1. CARREGAR DADOS: Tenta pegar do LocalStorage ou cria lista vazia
+        let myHeroes = JSON.parse(localStorage.getItem('bs_heroes')) || [];
+
+        const grid = document.getElementById('heroes-list');
+        const emptyState = document.getElementById('empty-state');
+
+        // 2. RENDERIZAR NA TELA
+        function renderHeroes() {
+            grid.innerHTML = ""; // Limpa o grid
+
+            // Se a lista estiver vazia, mostra o aviso
+            if (myHeroes.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            // Se tiver heróis, mostra o grid
+            emptyState.style.display = 'none';
+            grid.style.display = 'grid';
+
+            // Cria o HTML de cada card
+            myHeroes.forEach((hero, index) => {
+                const card = document.createElement('div');
+                
+                // Define classe CSS baseada na escolha do jogador (segurança para minúsculas)
+                const heroClass = hero.class ? hero.class.toLowerCase() : 'tecnologo';
+                card.className = `hero-card class-${heroClass}`;
+                
+                // Lógica da Imagem: Se tiver Link usa, se não usa a Letra
+                let imgContent;
+                if(hero.photo && hero.photo.length > 5) {
+                    imgContent = `<img src="${hero.photo}" alt="${hero.name}">`;
+                } else {
+                    imgContent = `<div style="font-size:3rem; font-family:'Permanent Marker'; color:#333;">${hero.name.charAt(0)}</div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="hero-status status-${hero.status === 'Ativo' ? 'ok' : 'busy'}">${hero.status}</div>
+                    <div class="hero-img-container">
+                        ${imgContent}
+                    </div>
+                    <div class="hero-info">
+                        <h2>${hero.name}</h2>
+                        <p class="hero-meta">${hero.class} | Nível ${hero.level}</p>
+                        
+                        <div class="mini-stats">
+                            <div class="stat"><i class="fa-solid fa-heart"></i> ${hero.hp}</div>
+                            <div class="stat" style="margin-left: 10px; color: var(--bs-blue);"><i class="fa-solid fa-shield-halved"></i> ${hero.def || '0'}</div>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn-edit" onclick="openHero(${hero.id})">ABRIR</button>
+                            <button class="btn-delete" onclick="deleteHero(${index})"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 3. REDIRECIONAR PARA CRIAÇÃO
+        function goToSheet() {
+            window.location.href = 'sheet.html';
+        }
+
+        // 4. DELETAR HEROI
+        function deleteHero(index) {
+            if(confirm("Tem certeza que deseja deletar este arquivo? Essa ação é permanente.")) {
+                myHeroes.splice(index, 1); // Remove do array local
+                localStorage.setItem('bs_heroes', JSON.stringify(myHeroes)); // Atualiza o banco de dados
+                renderHeroes(); // Atualiza a tela
+            }
+        }
+
+        function openHero(id) {
+            window.location.href = 'view-hero.html?id=' + id;
+}
+
+        function toggleMenu() {
+            document.getElementById('nav-menu').classList.toggle('active');
+        }
+
+        // Inicializa ao carregar a página
+        renderHeroes();
+    </script>
+</body>
+</html>

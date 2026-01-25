@@ -1,522 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engenharia de Poderes - Blue Sphere</title>
-    <style>
-        :root {
-            /* Paleta de Cores baseada na imagem Hero (1).jpg */
-            --bg-color: #2b9eb3; /* Azul Petróleo do fundo */
-            --container-bg: #217a8d; /* Azul mais escuro para container */
-            --header-yellow: #f8cf56; /* Amarelo dos títulos */
-            --accent-pink: #ff80ab; /* Rosa (PV) */
-            --accent-purple: #9fa8da; /* Roxo azulado (PC) */
-            --input-bg: #ffffff;
-            --text-color: #ffffff;
-            --text-dark: #333333;
-            --border-radius: 12px;
-            --hex-shape: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .main-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: var(--border-radius);
-        }
-
-        /* Cabeçalhos estilo "Atributos/Status" da imagem */
-        h1, h2, h3 {
-            background-color: var(--header-yellow);
-            color: #d35400; /* Laranja escuro para contraste no amarelo */
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: 800;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
-        }
-
-        h3 {
-            font-size: 1.1em;
-            width: fit-content;
-            margin: 20px auto 10px auto;
-        }
-
-        .section {
-            background-color: var(--container-bg);
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius);
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        /* Formulários */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        select, input[type="number"], input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background-color: var(--input-bg);
-            color: var(--text-dark);
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        /* Checkboxes estilizados */
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-        }
-
-        .checkbox-item {
-            background-color: rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .checkbox-item input {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .checkbox-item:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        /* Painel Flutuante de Resultado */
-        .result-panel {
-            position: sticky;
-            bottom: 20px;
-            background-color: #ffffff;
-            color: var(--text-dark);
-            padding: 15px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
-            border-top: 5px solid var(--accent-pink);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            z-index: 100;
-        }
-
-        .result-item {
-            text-align: center;
-            margin: 5px 15px;
-        }
-
-        .result-value {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #d35400;
-        }
-
-        .result-label {
-            font-size: 0.8em;
-            text-transform: uppercase;
-            color: #7f8c8d;
-        }
-
-        .tier-badge {
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            color: white;
-        }
-        .tier-ok { background-color: #27ae60; }
-        .tier-warn { background-color: #f39c12; }
-        .tier-danger { background-color: #c0392b; }
-
-        /* Botão Reset */
-        .btn-reset {
-            background-color: var(--accent-pink);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
-            transition: transform 0.1s;
-        }
-        .btn-reset:active { transform: scale(0.98); }
-
-        .helper-text {
-            font-size: 0.8em;
-            color: #eee;
-            margin-top: 2px;
-            font-style: italic;
-        }
-
-        /* Hexagon decorative */
-        .hex-decoration {
-            width: 30px;
-            height: 30px;
-            background-color: var(--header-yellow);
-            clip-path: var(--hex-shape);
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-
-    </style>
+    <title>ANTAGONISTAS | RPG System</title>
+    <link rel="stylesheet" href="style-home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="main-container">
-        <h1><div class="hex-decoration"></div>Engenharia de Poderes</h1>
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <div class="logo-icon">A</div>
+                <span class="logo-text">ANTAGONISTAS</span>
+            </a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="index.html">INÍCIO</a></li>
+                <li><a href="heroes.html" class="active">HERÓIS</a></li>
+                <li><a href="#">CAMPANHAS</a></li>
+                <li><a href="#">LOJA</a></li>
+                <li><a href="#" class="btn-login">PERFIL</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="section">
-            <div class="form-group">
-                <label>Nome da Habilidade</label>
-                <input type="text" id="skillName" placeholder="Ex: Bola de Fogo Suprema">
-            </div>
-            <div class="form-group">
-                <label>Nível do Agente (Para cálculo de Tier)</label>
-                <input type="number" id="agentLevel" value="1" min="1" max="20" onchange="calculate()">
+    <section class="hero-section">
+        <div class="hero-content">
+            <p class="hero-subtitle">BEM-VINDO A 2610</p>
+            <h1 class="hero-title">ANTAGONISTAS</h1>
+            <p class="hero-description">
+                Você é o herói, o vilão ou apenas mais um número na estatística? 
+                Entre na Blue Sphere e descubra seu destino.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-primary">CRIAR FICHA</button>
+                <button class="btn-secondary">LER O LIVRO</button>
             </div>
         </div>
+        <div class="hero-bg-overlay"></div>
+    </section>
 
-        <h2>1. Estrutura (Chassi)</h2>
-        <div class="section">
-            <div class="form-group">
-                <label>Tempo de Execução</label>
-                <select id="time" onchange="calculate()">
-                    <option value="-8">Ação Complexa (-8 PF)</option>
-                    <option value="0" selected>Ação Padrão (0 PF)</option>
-                    <option value="30">Reação (+30 PF)</option>
-                    <option value="5">Duração Fixa (+5 PF/rodada)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Alcance</label>
-                <select id="range" onchange="calculate()">
-                    <option value="0" selected>Pessoal (0 PF)</option>
-                    <option value="5">Toque (+5 PF)</option>
-                    <option value="10">Curto - 9m (+10 PF)</option>
-                    <option value="15">Médio - 18m (+15 PF)</option>
-                    <option value="20">Longo - 36m (+20 PF)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Área e Alvos</label>
-                <select id="area" onchange="calculate()">
-                    <option value="0" selected>Alvo Único (0 PF)</option>
-                    <option value="5">Eu Mesmo (+5 PF)</option>
-                    <option value="10">Múltiplos Alvos (+10 PF/cada)</option>
-                    <option value="10_area">Área de Efeito (+10 PF/2m²)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Quantidade Extra (Alvos ou Área)</label>
-                <input type="number" id="areaMultiplier" value="0" min="0" onchange="calculate()">
-                <div class="helper-text">Se for Área, 1 = 2m², 2 = 4m², etc. Se Alvos, 1 = +1 alvo.</div>
-            </div>
-
-            <div class="form-group">
-                <label>Duração</label>
-                <select id="duration" onchange="calculate()">
-                    <option value="0" selected>Instantâneo (0 PF)</option>
-                    <option value="3">Sustentado (+3 PF)</option>
-                    <option value="30">Passivo (+30 PF)</option>
-                    <option value="50">Cena (+50 PF)</option>
-                </select>
-            </div>
+    <section class="modules-grid">
+        <div class="card">
+            <i class="fa-solid fa-mask card-icon"></i>
+            <h3>MEUS HERÓIS</h3>
+            <p>Gerencie suas fichas, poderes e inventário.</p>
         </div>
-
-        <h2>2. Potência (Dados)</h2>
-        <div class="section">
-            <div class="form-group">
-                <label>Tipo de Dado</label>
-                <select id="diceType" onchange="calculate()">
-                    <option value="0">Nenhum (0 PF)</option>
-                    <option value="4">d4 (4 PF)</option>
-                    <option value="6">d6 (6 PF)</option>
-                    <option value="8">d8 (8 PF)</option>
-                    <option value="10">d10 (10 PF)</option>
-                    <option value="12">d12 (12 PF)</option>
-                    <option value="20">d20 (20 PF)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Quantidade de Dados</label>
-                <input type="number" id="diceCount" value="1" min="1" onchange="calculate()">
-            </div>
+        <div class="card">
+            <i class="fa-solid fa-map-location-dot card-icon"></i>
+            <h3>CAMPANHAS</h3>
+            <p>Acesse o mapa tático e diário de missões.</p>
         </div>
-
-        <h2>3. Módulos e Efeitos</h2>
-        
-        <h3>Tipo de Dano</h3>
-        <div class="section">
-            <select id="damageType" onchange="calculate()">
-                <option value="0">Físico (0 PF)</option>
-                <option value="2">Elemental (Fogo, Gelo, etc.) (+2 PF)</option>
-                <option value="5">Exótico / Mental (+5 PF)</option>
-                <option value="5_plasma">Plasmático (+5 PF)</option>
-            </select>
+        <div class="card">
+            <i class="fa-solid fa-cart-shopping card-icon"></i>
+            <h3>LOJA & ARSENAL</h3>
+            <p>Compre equipamentos e melhorias de traje.</p>
         </div>
-
-        <h3>Condições (Status)</h3>
-        <div class="section">
-            <div class="checkbox-group">
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="3" onchange="calculate()"> Sangrando (3 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="3" onchange="calculate()"> Em Chamas (3 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="3" onchange="calculate()"> Fraco (3 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="3" onchange="calculate()"> Lento (3 PF)</label>
-                
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="8" onchange="calculate()"> Vulnerável (8 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="8" onchange="calculate()"> Cego / Surdo (8 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="8" onchange="calculate()"> Agarrado (8 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="8" onchange="calculate()"> Envenenado (8 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="8" onchange="calculate()"> Silenciado (8 PF)</label>
-
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="15" onchange="calculate()"> Confuso (15 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="15" onchange="calculate()"> Atordoado (15 PF)</label>
-                <label class="checkbox-item"><input type="checkbox" class="mod-check" value="15" onchange="calculate()"> Paralisado (15 PF)</label>
-            </div>
+        <div class="card">
+            <i class="fa-solid fa-book-skull card-icon"></i>
+            <h3>O LIVRO</h3>
+            <p>Consulte as regras completas e a lore.</p>
         </div>
+    </section>
 
-        <h3>Módulos Gerais</h3>
-        <div class="section">
-            <div class="form-group">
-                <label>Quantidade de Módulos Especiais</label>
-                <div class="helper-text">Insira a quantidade de vezes que comprou cada módulo.</div>
-            </div>
-            
-            <div class="checkbox-group">
-                <div class="form-group">
-                    <label>Projétil Extra (+15 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="15" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Laser/Contínuo (+30 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="30" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Vampirismo (+40 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="40" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Barreira/Escudo (+20 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="20" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Regeneração (+25 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="25" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Voo/Velocidade (+10 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="10" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Teleporte (+15 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="15" value="0" min="0" onchange="calculate()">
-                </div>
-                <div class="form-group">
-                    <label>Ação Extra (+100 PF)</label>
-                    <input type="number" class="mod-counter" data-cost="100" value="0" min="0" onchange="calculate()">
-                </div>
-            </div>
-        </div>
-
-        <h3>Invocação (Parceiro)</h3>
-        <div class="section">
-            <div class="form-group">
-                <label>Tipo de Parceiro</label>
-                <select id="summonType" onchange="calculate()">
-                    <option value="0">Nenhum</option>
-                    <option value="30">Suporte - Atributal/Pericial (30 PF)</option>
-                    <option value="35">Combate - Danoso/Defensivo (35 PF)</option>
-                    <option value="45">Conjurador - Habilidático (45 PF)</option>
-                </select>
-            </div>
-        </div>
-
-        <h2>4. Sobrecarga e Custo</h2>
-        <div class="section" style="border-color: var(--accent-purple);">
-            <div class="form-group">
-                <label>Sobrecarga (Aumento de Custo de Ativação)</label>
-                <input type="number" id="overcharge" value="0" min="0" onchange="calculate()">
-                <div class="helper-text">Cada 1 ponto adicionado ao Custo de Ativação reduz 3 PF do custo total.</div>
-            </div>
-        </div>
-
-        <button class="btn-reset" onclick="resetForm()">Reiniciar Ficha</button>
-
-    </div>
-
-    <div class="result-panel">
-        <div class="result-item">
-            <div class="result-label">Custo Total (PF)</div>
-            <div class="result-value" id="totalCost">0</div>
-        </div>
-        <div class="result-item">
-            <div class="result-label">Tier Requerido</div>
-            <div id="tierBadge" class="tier-badge tier-ok">Tier 1</div>
-        </div>
-        <div class="result-item">
-            <div class="result-label">Custo de Ativação</div>
-            <div class="result-value" style="color: var(--accent-purple);" id="activationCost">Padrão</div>
-        </div>
-    </div>
+    <footer class="main-footer">
+        <p>Criado por <strong>Murilo Dias</strong></p>
+        <p class="disclaimer">Este site utiliza artes de IA e outros artistas para fins de RPG.</p>
+    </footer>
 
     <script>
-        function calculate() {
-            let totalPF = 0;
-
-            // 1. Chassi
-            totalPF += parseInt(document.getElementById('time').value);
-            totalPF += parseInt(document.getElementById('range').value);
-            
-            let areaVal = document.getElementById('area').value;
-            let areaMult = parseInt(document.getElementById('areaMultiplier').value);
-            
-            if (areaVal === "10" || areaVal === "10_area") {
-                // Base cost is 10 if multiplier is 1, but dropdown logic handles base type
-                // Actually base is just additive. 
-                // Wait, text says: Multiplos (+10/extra), Area (+10/2m).
-                // Let's assume selecting the option implies at least 1, costing 10? 
-                // Or is base 0 and multiplier adds?
-                // Text: "Múltiplos Alvos (+10 PF/extra)" implies 1 target is 0. 2 targets is +10.
-                // Text: "Área de Efeito (+10 PF/2m²)" implies 0m is 0. 2m is 10.
-                
-                // Let's treat the select value as base cost for the first increment?
-                // Actually let's use the input purely.
-                if (areaMult > 0) {
-                    totalPF += (areaMult * 10);
-                }
-            } else {
-                totalPF += parseInt(areaVal); // Just add the value (0 or 5 for Self)
-            }
-
-            totalPF += parseInt(document.getElementById('duration').value);
-
-            // 2. Potência
-            let diceType = parseInt(document.getElementById('diceType').value);
-            let diceCount = parseInt(document.getElementById('diceCount').value);
-            totalPF += (diceType * diceCount);
-
-            // 3. Módulos
-            // Damage Type
-            totalPF += parseInt(document.getElementById('damageType').value);
-
-            // Conditions (Checkboxes)
-            let checks = document.getElementsByClassName('mod-check');
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    totalPF += parseInt(checks[i].value);
-                }
-            }
-
-            // General Modules (Counters)
-            let counters = document.getElementsByClassName('mod-counter');
-            for (let i = 0; i < counters.length; i++) {
-                let count = parseInt(counters[i].value);
-                let cost = parseInt(counters[i].getAttribute('data-cost'));
-                totalPF += (count * cost);
-            }
-
-            // Summon
-            totalPF += parseInt(document.getElementById('summonType').value);
-
-            // 4. Sobrecarga
-            let overcharge = parseInt(document.getElementById('overcharge').value);
-            let discount = overcharge * 3;
-            totalPF -= discount;
-
-            // Display Logic
-            document.getElementById('totalCost').innerText = totalPF;
-
-            // Tier Calculation
-            let tierText = "Tier 1";
-            let badgeClass = "tier-ok";
-            let agentLevel = parseInt(document.getElementById('agentLevel').value);
-            let maxPF = 0;
-
-            // Determine Max PF based on Level table
-            if(agentLevel == 1) maxPF = 25;
-            else if(agentLevel <= 4) maxPF = 25;
-            else if(agentLevel <= 9) maxPF = 50;
-            else if(agentLevel <= 14) maxPF = 75;
-            else if(agentLevel <= 19) maxPF = 100;
-            else maxPF = 125;
-
-            // Determine Tier of Skill
-            if (totalPF <= 25) tierText = "Tier 1";
-            else if (totalPF <= 50) tierText = "Tier 2";
-            else if (totalPF <= 75) tierText = "Tier 3";
-            else if (totalPF <= 100) tierText = "Tier 4";
-            else tierText = "Tier 5";
-
-            // Validation
-            if (totalPF > maxPF) {
-                badgeClass = "tier-danger";
-                tierText += " (Acima do Limite!)";
-            } else if (totalPF > (maxPF - 5)) {
-                badgeClass = "tier-warn";
-            }
-
-            let badge = document.getElementById('tierBadge');
-            badge.className = "tier-badge " + badgeClass;
-            badge.innerText = tierText;
-
-            // Activation Cost Logic (Flavor)
-            let activationText = "Padrão";
-            if (overcharge > 0) {
-                activationText = `+${overcharge} PC/Mana`;
-            }
-            document.getElementById('activationCost').innerText = activationText;
+        // Script simples para abrir/fechar menu no celular
+        function toggleMenu() {
+            const nav = document.getElementById('nav-menu');
+            nav.classList.toggle('active');
         }
-
-        function resetForm() {
-            document.querySelectorAll('input').forEach(i => {
-                if(i.type == 'number' && i.id != 'agentLevel' && i.id != 'diceCount') i.value = 0;
-                if(i.id == 'diceCount') i.value = 1;
-                if(i.type == 'text') i.value = '';
-                if(i.type == 'checkbox') i.checked = false;
-            });
-            document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
-            // Reset specific defaults
-            document.getElementById('time').value = "0";
-            document.getElementById('range').value = "0";
-            document.getElementById('area').value = "0";
-            document.getElementById('duration').value = "0";
-            calculate();
-        }
-
-        // Init
-        calculate();
     </script>
 </body>
 </html>

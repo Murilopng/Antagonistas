@@ -1,0 +1,316 @@
+:root {
+    /* Paleta de Cores das Imagens */
+    --bs-blue: #36A3EB;         /* Fundo Header/Footer */
+    --bs-yellow: #F2E96B;       /* Fundo Hero */
+    --bs-red-light: #F25C5C;    /* Botões/Detalhes */
+    --bs-red-dark: #C13B4D;     /* Texto Forte/Logo */
+    
+    /* Neutros */
+    --white: #ffffff;
+    --dark: #1a1a1a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    overflow-x: hidden;
+}
+
+/* --- HEADER --- */
+.main-header {
+    background-color: var(--bs-blue);
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    background: var(--bs-yellow);
+    color: var(--bs-red-dark);
+    font-family: 'Permanent Marker', cursive;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    transform: rotate(-5deg);
+    box-shadow: 3px 3px 0 var(--bs-red-dark);
+}
+
+.logo-text {
+    color: var(--white);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* MENU DE NAVEGAÇÃO DESKTOP */
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+
+.nav-menu a:hover {
+    color: var(--bs-yellow);
+    text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+.btn-login {
+    background: var(--bs-red-dark);
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+}
+
+.btn-login:hover {
+    background: var(--bs-yellow) !important;
+    color: var(--bs-red-dark) !important;
+    border-color: var(--bs-red-dark);
+}
+
+/* BOTÃO MOBILE (HAMBURGUER) */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    background-color: var(--bs-yellow);
+    min-height: 80vh; /* Ocupa boa parte da tela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Padrão de bolinhas (Comic Style) no fundo */
+.hero-bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(var(--bs-red-light) 10%, transparent 11%);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.hero-subtitle {
+    color: var(--bs-red-dark);
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.hero-title {
+    font-family: 'Permanent Marker', cursive; /* Fonte estilo pincelada */
+    font-size: 6rem; /* Bem grande */
+    color: var(--bs-red-dark);
+    line-height: 1;
+    text-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+    transform: rotate(-2deg); /* Leve inclinação para estilo */
+    margin-bottom: 20px;
+    z-index: 1;
+}
+
+.hero-description {
+    max-width: 600px;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin-bottom: 40px;
+    z-index: 1;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    z-index: 1;
+}
+
+.btn-primary {
+    background: var(--bs-red-dark);
+    color: var(--white);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.8);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 rgba(0,0,0,0.8);
+}
+
+.btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--bs-red-dark);
+    border: 3px solid var(--bs-red-dark);
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-secondary:hover {
+    background: var(--bs-red-dark);
+    color: var(--white);
+}
+
+/* --- CARDS GRID --- */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 50px 5%;
+    background: var(--white);
+    margin-top: -50px; /* Sobrepor levemente o hero */
+    z-index: 2;
+    position: relative;
+}
+
+.card {
+    background: var(--white);
+    border: 2px solid var(--bs-blue);
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--bs-red-light);
+    box-shadow: 0 15px 30px rgba(242, 92, 92, 0.2);
+}
+
+.card-icon {
+    font-size: 3rem;
+    color: var(--bs-blue);
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.card:hover .card-icon {
+    color: var(--bs-red-light);
+}
+
+.card h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    background-color: var(--bs-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostra o botão hamburguer */
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bs-blue);
+        flex-direction: column;
+        display: none; /* Escondido por padrão */
+        padding: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-menu.active {
+        display: flex; /* Mostra quando ativo */
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .hero-title {
+        font-size: 3.5rem; /* Fonte menor no celular */
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+    }
+}

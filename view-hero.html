@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê do Agente | ANTAGONISTAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- ESTILOS VISUAIS --- */
+        :root { --bs-blue: #36A3EB; --bs-yellow: #F2E96B; --bs-red: #F25C5C; --dark: #1a1a1a; --white: #fff; --bg: #f4f4f9; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 100px; margin: 0; }
+        
+        /* Header & Nav */
+        header { background: var(--bs-blue); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .logo { font-family: 'Permanent Marker'; font-size: 1.5rem; color: white; text-decoration: none; }
+        .nav-btn { background: rgba(0,0,0,0.2); color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; transition:0.3s; }
+        .nav-btn:hover { background: var(--bs-yellow); color: var(--dark); }
+
+        /* Container & Cards */
+        .sheet-container { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: grid; gap: 25px; }
+        .sheet-section { background: var(--white); border: 2px solid var(--dark); border-radius: 10px; padding: 25px; position: relative; box-shadow: 5px 5px 0 rgba(0,0,0,0.05); }
+        .section-title { font-family: 'Orbitron'; color: var(--bs-blue); font-size: 1.4rem; border-bottom: 2px solid var(--bs-yellow); padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Identidade Grid */
+        .identity-layout { display: grid; grid-template-columns: 150px 1fr; gap: 20px; }
+        .photo-box { width: 100%; height: 180px; background: #ddd; border: 2px solid var(--dark); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Inputs */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .full-width { grid-column: 1 / -1; }
+        label { font-weight: 700; color: #C13B4D; font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Rajdhani'; font-size: 1rem; background: #fafafa; }
+        input:focus, textarea:focus { border-color: var(--bs-blue); outline: none; background: white; }
+
+        /* Status Bars */
+        .status-bar-container { margin-bottom: 15px; }
+        .bar-label { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
+        .progress-track { width: 100%; height: 25px; background: #ddd; border-radius: 12px; overflow: hidden; border: 2px solid #999; position: relative; }
+        .progress-fill { height: 100%; transition: width 0.3s; }
+        .fill-hp { background: var(--bs-red); } .fill-pc { background: var(--bs-blue); } .fill-trans { background: #8B0000; } .fill-energy { background: #00FFFF; }
+        .bar-text { position: absolute; width: 100%; text-align: center; top: 3px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; font-family: 'Orbitron'; font-size:0.9rem; }
+
+        /* Atributos Hexagonais */
+        .hex-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0; }
+        .hex { width: 90px; text-align: center; }
+        .hex-shape { width: 80px; height: 90px; background: var(--dark); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; align-items: center; justify-content: center; margin: 0 auto; color: var(--bs-yellow); font-size: 2.2rem; font-family: 'Orbitron'; }
+        .hex-label { font-weight: bold; margin-top: 5px; color: var(--bs-blue); }
+        .hex-btns { display: flex; justify-content: space-between; margin-top: 5px; }
+        .hex-btns button { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #ccc; cursor: pointer; font-weight: bold; background: white; transition:0.2s; }
+        .hex-btns button:hover { background: var(--bs-blue); color: white; border-color: var(--bs-blue); }
+
+        /* Matriz de Perícias */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+        .skill-row { display: flex; justify-content: space-between; align-items: center; background: #f8f8f8; padding: 8px 12px; border: 1px solid #eee; border-left-width: 4px; transition: 0.2s; }
+        .skill-row:hover { background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .skill-select { padding: 4px; font-size: 0.9rem; border-radius: 4px; width: 100px; font-weight: bold; cursor: pointer; }
+
+        /* Nível */
+        .level-control { display: flex; justify-content: center; align-items: center; gap: 20px; background: var(--dark); color: var(--bs-yellow); padding: 10px; border-radius: 8px; margin-top: 20px; font-family: 'Orbitron'; font-size: 1.2rem; }
+        .btn-lvl { background: var(--bs-yellow); border: none; width: 30px; height: 30px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+        /* Inventário e Habilidades */
+        .btn-add { background: var(--dark); color: var(--bs-yellow); border: none; padding: 5px 12px; cursor: pointer; font-weight: bold; border-radius: 4px; font-size: 0.8rem; }
+        .item-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .item-row { border: 1px solid #ddd; padding: 10px; border-left: 4px solid var(--bs-blue); background: #fafafa; }
+        .item-actions { margin-top: 5px; font-size: 0.8rem; display: flex; gap: 15px; }
+        .action-link { color: var(--bs-blue); text-decoration: underline; cursor: pointer; font-weight: bold; }
+        .upgrade-tag { background: #e0e0e0; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; display: inline-block; margin-top: 4px; border: 1px solid #ccc; cursor: pointer; }
+        .upgrade-tag:hover { background: #ffcccc; border-color: red; text-decoration: line-through; }
+
+        /* Recursos (Topo) */
+        .resources-top { display: flex; gap: 15px; background: var(--dark); color: white; padding: 10px; border-radius: 8px; margin-bottom: 20px; justify-content: space-around; font-family: 'Orbitron'; }
+        .res-input { background: rgba(255,255,255,0.1); border: 1px solid #555; color: var(--bs-yellow); width: 80px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-left: 5px; }
+
+        /* Fab Save */
+        .fab-save { position: fixed; bottom: 30px; right: 30px; background: var(--bs-blue); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; border: none; z-index: 99; transition: 0.3s; }
+        .fab-save:hover { transform: scale(1.1); background: var(--bs-yellow); color: var(--dark); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 20px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; border-radius: 10px; }
+        .modal-list div { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .modal-list div:hover { background: #f0f0f0; border-left: 4px solid var(--bs-blue); padding-left: 6px; }
+        .modal-close { float: right; font-size: 1.5rem; cursor: pointer; font-weight: bold; }
+
+        /* ATUALIZE ESTE TRECHO NO CSS DO power-creator.html */
+
+        /* Item do Módulo */
+        .check-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; /* Separa texto do preço */
+            background: #f9f9f9; 
+            padding: 10px 12px; 
+            border: 1px solid #eee; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            position: relative; 
+            min-height: 50px; /* Garante altura para textos longos */
+        }
+        
+        .check-item:hover { 
+            border-color: var(--bs-blue); 
+            background: white; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+
+        /* Container do Nome e Checkbox */
+        .module-info {
+            display: flex;
+            align-items: center;
+            flex: 1; /* Ocupa todo espaço disponível */
+            margin-right: 10px; /* Espaço antes do preço */
+        }
+
+        .check-item input { 
+            margin-right: 10px; 
+            width: auto; 
+            flex-shrink: 0; /* Checkbox não encolhe */
+        }
+
+        /* Texto do Módulo */
+        .module-label {
+            font-size: 0.95rem;
+            line-height: 1.2;
+            word-break: break-word; /* Quebra texto se for muito longo */
+        }
+
+        /* Selo de Preço */
+        .cost-badge { 
+            font-size: 0.8rem; 
+            background: var(--dark); 
+            color: var(--bs-yellow); 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            white-space: nowrap; /* Texto não quebra linha */
+            flex-shrink: 0; /* Selo não encolhe */
+        }
+
+        /* Ajuste para contadores pequenos */
+        .small-controls {
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">ANTAGONISTAS</a>
+        <a href="heroes.html" class="nav-btn"><i class="fa-solid fa-users"></i> LISTA</a>
+    </header>
+
+    <main class="sheet-container">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid var(--bs-red-dark); padding-bottom:10px;">
+            <div>
+                <h1 style="font-family:'Permanent Marker'; color:var(--bs-red-dark); margin:0; font-size:2.5rem;" id="display-name">AGENTE</h1>
+                <span style="font-family:'Orbitron'; color:#666;">ID: <span id="display-id">--</span></span>
+            </div>
+            <button class="nav-btn" onclick="saveData()" style="background:var(--bs-red-dark);">SALVAR</button>
+        </div>
+
+        <div class="resources-top">
+            <div><i class="fa-solid fa-coins"></i> REROIS <input type="number" class="res-input" id="res-rerois"></div>
+            <div><i class="fa-solid fa-bolt"></i> FLUXO <input type="number" class="res-input" id="res-flux"></div>
+        </div>
+
+        <section class="sheet-section">
+            <h2 class="section-title"><i class="fa-solid fa-id-badge"></i> DADOS PESSOAIS</h2>
+            <div class="identity-layout">
+                <div class="photo-box" id="photo-display"><i class="fa-solid fa-user fa-3x" style="color:#888;"></i></div>
+                <div class="form-grid">
+                    <div><label>Codinome</label><input type="text" id="name"></div>
+                    <div><label>Nome Civil</label><input type="text" id="civil"></div>
+                    <div><label>Classe</label>
+                        <select id="class" onchange="updateClassMechanics()">
+                            <option value="tecnologo">Tecnólogo</option>
+                            <option value="monstruoso">Monstruoso</option>
+                            <option value="catalisador">Catalisador</option>
+                        </select>
+                    </div>
+                    <div><label>Idade</label><input type="number" id="age"></div>
+                    <div><label>Patente</label><input type="text" id="rank"></div>
+                    <div class="full-width"><label>Foto URL</label><input type="text" id="photo-url" oninput="updatePhoto()"></div>
+                </div>
+            </div>
+            
+            <div class="level-control">
+                <button class="btn-lvl" onclick="changeLevel(-1)">-</button>
+                <span>NÍVEL <span id="level-display">1</span></span>
+                <button class="btn-lvl" onclick="changeLevel(1)">+</button>
+            </div>
+        </section>
+
+        <section class="sheet-section">
+            <h2 class="section-title"><i class="fa-solid fa-heart-pulse"></i> STATUS VITAL & ATRIBUTOS</h2>
+            
+            <div class="status-bar-container">
+                <div class="bar-label"><span>VIDA (PV)</span> <span id="hp-txt">--/--</span></div>
+                <div class="progress-track"><div class="progress-fill fill-hp" id="hp-bar" style="width: 100%;"></div><div class="bar-text" id="hp-overlay"></div></div>
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <input type="number" id="hp-curr" onchange="updateBars()"> / <input type="number" id="hp-max" readonly style="background:#eee;">
+                </div>
+            </div>
+
+            <div class="status-bar-container">
+                <div class="bar-label"><span>CANSAÇO (PC)</span> <span id="pc-txt">--/--</span></div>
+                <div class="progress-track"><div class="progress-fill fill-pc" id="pc-bar" style="width: 0%;"></div><div class="bar-text" id="pc-overlay"></div></div>
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <input type="number" id="pc-curr" onchange="updateBars()"> / <input type="number" id="pc-max" readonly style="background:#eee;">
+                </div>
+            </div>
+
+            <div id="special-bar-container" class="status-bar-container" style="display:none;">
+                <div class="bar-label"><span id="special-label">ESPECIAL</span> <span id="special-overlay-txt" style="float:right;">0/0</span></div>
+                <div class="progress-track">
+                    <div id="special-bar" class="progress-fill trans-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="special-curr" value="0" onchange="updateBars()" style="margin-top:5px; width:100%;">
+            </div>
+
+            <div class="hex-grid" id="hex-grid">
+                </div>
+        </section>
+
+        <section class="sheet-section">
+            <h2 class="section-title"><i class="fa-solid fa-list-check"></i> MATRIZ DE PERÍCIAS</h2>
+            <div class="skills-grid" id="skills-list">
+                </div>
+        </section>
+
+        <section class="sheet-section">
+            <h2 class="section-title">ARSENAL <button class="btn-add" onclick="openItemModal('weapon')">+ ADD ARMA</button></h2>
+            <div id="weapon-list" class="item-list"></div>
+            
+            <h2 class="section-title" style="margin-top:30px;">TRAJE <button class="btn-add" onclick="openSuitModal()">EDITAR</button></h2>
+            <div id="suit-display" class="item-list"></div>
+
+            <h2 class="section-title" style="margin-top:30px;">UTILITÁRIOS <button class="btn-add" onclick="openItemModal('item')">+ ADD ITEM</button></h2>
+            <div id="item-list" class="item-list"></div>
+        </section>
+
+        <section class="sheet-section">
+            <h2 class="section-title">TÁTICAS <button class="btn-add" onclick="openTacticalModal()">+ APRENDER</button></h2>
+            <div id="tactical-list" class="item-list"></div>
+            <h2 class="section-title" style="margin-top:30px;">
+                FLUXO (PODERES) 
+                <button class="btn-add" onclick="window.location.href='power-creator.html'">+ ENGENHARIA</button>
+            </h2>
+            <div id="flux-list" class="item-list"></div>
+        </section>
+
+        <section class="sheet-section">
+            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> DOSSIÊ</h2>
+            <div class="form-grid">
+                <div class="full-width"><label>História</label><textarea id="history" rows="4"></textarea></div>
+                <div class="full-width"><label>Personalidade</label><textarea id="personality" rows="3"></textarea></div>
+                <div class="full-width"><label>Origem do Poder</label><textarea id="power-origin" rows="3"></textarea></div>
+                <div class="full-width"><label>Relacionamentos & Sinergia</label><textarea id="relations" rows="3"></textarea></div>
+                <div class="full-width"><label>Anotações</label><textarea id="notes" rows="3"></textarea></div>
+            </div>
+        </section>
+
+    </main>
+
+    <button class="fab-save" onclick="saveData()"><i class="fa-solid fa-floppy-disk"></i></button>
+
+    <div id="list-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('list-modal')">&times;</span>
+            <h2 id="modal-title">Selecione</h2>
+            <div id="modal-body" class="modal-list"></div>
+        </div>
+    </div>
+
+    <div id="flux-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('flux-modal')">&times;</span>
+            <h2>Criar Poder</h2>
+            <div style="display:grid; gap:10px;">
+                <label>Nome</label><input type="text" id="flux-name">
+                <label>Descrição</label><textarea id="flux-desc" rows="3"></textarea>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div><label>Custo (PF)</label><input type="number" id="flux-cost"></div>
+                    <div><label>Uso (PC)</label><input type="number" id="flux-use"></div>
+                </div>
+                <button class="btn-add" style="margin-top:10px; width:100%; padding:10px;" onclick="addFluxPower()">SINTETIZAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script-data.js"></script>
+    <script src="script-sheet.js"></script>
+
+</body>
+</html>

@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style-home.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Pequeno ajuste para os cards serem clicáveis */
+        .card { cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(54, 163, 235, 0.2); border-color: #36A3EB; }
+    </style>
 </head>
 <body>
 
@@ -20,10 +26,9 @@
         <button class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
         <nav class="nav-menu" id="nav-menu">
             <ul>
-                <li><a href="index.html">INÍCIO</a></li>
-                <li><a href="heroes.html" class="active">HERÓIS</a></li>
-                <li><a href="#">CAMPANHAS</a></li>
-                <li><a href="#">LOJA</a></li>
+                <li><a href="index.html" class="active">INÍCIO</a></li>
+                <li><a href="heroes.html">HERÓIS</a></li>
+                <li><a href="book.html">LIVRO</a></li>
                 <li><a href="#" class="btn-login">PERFIL</a></li>
             </ul>
         </nav>
@@ -38,30 +43,33 @@
                 Entre na Blue Sphere e descubra seu destino.
             </p>
             <div class="hero-buttons">
-                <button class="btn-primary">CRIAR FICHA</button>
-                <button class="btn-secondary">LER O LIVRO</button>
+                <button class="btn-primary" onclick="window.location.href='sheet.html'">CRIAR FICHA</button>
+                <button class="btn-secondary" onclick="window.location.href='book.html'">LER O LIVRO</button>
             </div>
         </div>
         <div class="hero-bg-overlay"></div>
     </section>
 
     <section class="modules-grid">
-        <div class="card">
+        <div class="card" onclick="window.location.href='heroes.html'">
             <i class="fa-solid fa-mask card-icon"></i>
             <h3>MEUS HERÓIS</h3>
             <p>Gerencie suas fichas, poderes e inventário.</p>
         </div>
+
         <div class="card">
             <i class="fa-solid fa-map-location-dot card-icon"></i>
             <h3>CAMPANHAS</h3>
-            <p>Acesse o mapa tático e diário de missões.</p>
+            <p>Acesse o mapa tático e diário de missões. (Em Breve)</p>
         </div>
-        <div class="card">
+
+        <div class="card" onclick="window.location.href='book.html#equipamentos'">
             <i class="fa-solid fa-cart-shopping card-icon"></i>
             <h3>LOJA & ARSENAL</h3>
-            <p>Compre equipamentos e melhorias de traje.</p>
+            <p>Consulte a lista de preços e equipamentos.</p>
         </div>
-        <div class="card">
+
+        <div class="card" onclick="window.location.href='book.html'">
             <i class="fa-solid fa-book-skull card-icon"></i>
             <h3>O LIVRO</h3>
             <p>Consulte as regras completas e a lore.</p>

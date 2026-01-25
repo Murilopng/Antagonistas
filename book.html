@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livro de Regras | ANTAGONISTAS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- ESTILOS GERAIS --- */
+        :root { --bs-blue: #36A3EB; --bs-yellow: #F2E96B; --bs-red: #F25C5C; --bs-dark: #1a1a1a; --bg: #f4f4f9; }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: #333; 
+            font-family: 'Rajdhani', sans-serif; 
+            margin: 0; 
+            line-height: 1.6; 
+            font-size: 18px;
+        }
+
+        /* --- HEADER DA HOME (INTEGRADO) --- */
+        .main-header {
+            background-color: var(--bs-blue);
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon {
+            background: var(--bs-yellow); color: var(--bs-red); font-family: 'Permanent Marker';
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; border-radius: 8px; transform: rotate(-5deg);
+        }
+        .logo-text { color: white; font-family: 'Orbitron'; font-weight: 900; font-size: 1.2rem; }
+
+        .nav-menu ul { display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; }
+        .nav-menu a { text-decoration: none; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 0.9rem; transition: 0.3s; font-family: 'Orbitron'; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--bs-yellow); text-shadow: 0 0 5px rgba(242, 233, 107, 0.5); }
+        
+        .btn-login { border: 2px solid white; padding: 5px 15px; border-radius: 20px; }
+        .btn-login:hover { background: white; color: var(--bs-blue) !important; }
+
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- LAYOUT DO LIVRO --- */
+        .book-wrapper { display: grid; grid-template-columns: 280px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 70px); }
+        
+        /* SIDEBAR */
+        .sidebar { 
+            background: white; 
+            border-right: 1px solid #ddd; 
+            height: calc(100vh - 70px); 
+            position: sticky; 
+            top: 70px; 
+            overflow-y: auto; 
+            padding: 20px; 
+            scrollbar-width: thin;
+        }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--bs-blue); border-radius: 3px; }
+
+        /* Botão de Download e Aviso */
+        .download-box {
+            background: #f0f8ff;
+            border: 2px dashed var(--bs-blue);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-download {
+            display: block;
+            background: var(--bs-red);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--bs-dark); transform: scale(1.02); }
+
+        .missing-info-alert {
+            font-size: 0.85rem;
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .toc-title { font-family: 'Orbitron'; color: var(--bs-dark); font-size: 1.1rem; border-bottom: 2px solid var(--bs-yellow); margin-bottom: 10px; padding-bottom: 5px; }
+        .toc-list { list-style: none; padding: 0; }
+        .toc-list li { margin-bottom: 5px; }
+        
+        .toc-link { 
+            display: block; padding: 6px 10px; color: #555; text-decoration: none; font-weight: 600; border-radius: 5px; transition: 0.2s; font-size: 0.9rem;
+        }
+        .toc-link:hover { background: #f9f9f9; color: var(--bs-blue); border-left: 3px solid var(--bs-blue); padding-left: 7px; }
+        
+        /* CONTEÚDO */
+        .content { padding: 40px 60px; background: white; }
+        
+        h1 { font-family: 'Permanent Marker'; font-size: 3rem; color: var(--bs-red); border-bottom: 5px solid var(--bs-yellow); margin-bottom: 30px; margin-top: 0; line-height: 1; }
+        h2 { font-family: 'Orbitron'; color: var(--bs-blue); margin-top: 50px; border-left: 6px solid var(--bs-blue); padding-left: 15px; background: linear-gradient(90deg, #f0f8ff, transparent); padding-top: 5px; padding-bottom: 5px; }
+        h3 { font-family: 'Orbitron'; color: var(--bs-dark); border-bottom: 1px solid #eee; margin-top: 35px; }
+        h4 { color: var(--bs-red); font-weight: bold; margin-top: 25px; font-family: 'Orbitron'; }
+        
+        p { margin-bottom: 15px; text-align: justify; }
+        
+        /* Tabelas */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+        th { background: var(--bs-blue); color: white; font-family: 'Orbitron'; padding: 10px; text-align: left; text-transform: uppercase; white-space: nowrap; }
+        td { border: 1px solid #ddd; padding: 10px; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        
+        /* Caixas */
+        .box { padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid; }
+        .box-info { background: #eef9ff; border-color: var(--bs-blue); }
+        .box-warn { background: #fff5f5; border-color: var(--bs-red); color: #800; }
+        .box-note { background: #fffde7; border-color: var(--bs-yellow); color: #554; }
+        
+        /* Botão Mobile Sidebar */
+        .sidebar-toggle { display: none; position: fixed; bottom: 20px; right: 20px; background: var(--bs-dark); color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 1500; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        /* Responsividade */
+        @media(max-width: 900px) {
+            .book-wrapper { grid-template-columns: 1fr; }
+            .sidebar { display: none; position: fixed; width: 85%; height: 100%; z-index: 1600; top: 0; left: 0; box-shadow: 5px 0 20px rgba(0,0,0,0.5); }
+            .sidebar.active { display: block; }
+            .content { padding: 20px; }
+            .sidebar-toggle, .menu-toggle { display: block; }
+            .nav-menu { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: var(--bs-blue); padding: 20px; text-align: center; }
+            .nav-menu.active { display: block; }
+            .nav-menu ul { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <div class="logo-icon">A</div>
+                <span class="logo-text">ANTAGONISTAS</span>
+            </a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="index.html">INÍCIO</a></li>
+                <li><a href="heroes.html">HERÓIS</a></li>
+                <li><a href="book.html" class="active">LIVRO</a></li>
+                <li><a href="#" class="btn-login">PERFIL</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="book-wrapper">
+        <aside class="sidebar" id="sidebar">
+            
+            <div class="download-box">
+                <i class="fa-solid fa-file-word fa-2x" style="color:var(--bs-blue);"></i>
+                <div style="font-weight:bold; margin:10px 0;">Versão Original</div>
+                
+                <a href="Antagonistas.docx" download="Antagonistas_Regras.docx" class="btn-download">
+                    <i class="fa-solid fa-download"></i> BAIXAR ARQUIVO
+                </a>
+
+                <div class="missing-info-alert">
+                    <i class="fa-solid fa-circle-exclamation"></i> <strong>Atenção:</strong><br>
+                    Esta visualização online pode estar resumida ou incompleta em algumas tabelas. Para ter acesso a todas as regras, baixe o arquivo original.
+                </div>
+            </div>
+
+            <div class="toc-title">SUMÁRIO</div>
+            <ul class="toc-list">
+                <li><a href="#intro" class="toc-link">1. Introdução</a></li>
+                <li><a href="#criacao" class="toc-link">2. Criando Herói</a></li>
+                <li><a href="#atributos" class="toc-link">3. Atributos</a></li>
+                <li><a href="#pericias" class="toc-link">4. Perícias</a></li>
+                <li><a href="#iniciante" class="toc-link">5. Habilidades Iniciante</a></li>
+                <li><a href="#vida" class="toc-link">6. Vida e Cansaço</a></li>
+                <li><a href="#fontes" class="toc-link">7. Fontes de Poder</a></li>
+                <li><a href="#nivel" class="toc-link">8. Tabela de Nível</a></li>
+                <li><a href="#engenharia" class="toc-link">9. Engenharia de Poderes</a></li>
+                <li><a href="#dano" class="toc-link">10. Tipos de Dano</a></li>
+                <li><a href="#taticas" class="toc-link">11. Habilidades Táticas</a></li>
+                <li><a href="#parceiros" class="toc-link">12. Parceiros</a></li>
+                <li><a href="#interludio" class="toc-link">13. Interlúdio & Emprego</a></li>
+                <li><a href="#relacionamentos" class="toc-link">14. Relacionamentos</a></li>
+                <li><a href="#midia" class="toc-link">15. Reputação</a></li>
+                <li><a href="#equipamentos" class="toc-link">16. Equipamentos</a></li>
+                <li><a href="#arsenal" class="toc-link">17. Arsenal Completo</a></li>
+                <li><a href="#utilitarios" class="toc-link">18. Utilitários & Artefatos</a></li>
+                <li><a href="#melhorias" class="toc-link">19. Melhorias & Infusões</a></li>
+                <li><a href="#trajes" class="toc-link">20. Trajes</a></li>
+                <li><a href="#combate" class="toc-link">21. Combate</a></li>
+                <li><a href="#kaijus" class="toc-link">22. Kaijus & NPCs</a></li>
+                <li><a href="#universo" class="toc-link">23. Universo</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+
+            <div class="box box-warn">
+                <i class="fa-solid fa-triangle-exclamation"></i> <strong>NOTA:</strong> Este conteúdo é uma visualização web. Para garantir que você tenha todas as tabelas e regras atualizadas, utilize o botão "BAIXAR ARQUIVO" na barra lateral.
+            </div>
+
+            <section id="intro">
+                <h1>ANTAGONISTAS</h1>
+                <div class="box box-info">
+                    <h3>O que é RPG?</h3>
+                    <p>Esqueça as paredes invisíveis dos videogames e as opções limitadas de diálogo. Jogar RPG é participar de um filme de ação onde o roteiro está sendo escrito em tempo real e o orçamento para efeitos especiais é infinito, limitado apenas pela sua criatividade. Funciona como uma alucinação coletiva organizada onde vocês, os jogadores, assumem o papel dos <strong>Ativos</strong> da Blue Sphere.</p>
+                    <p>Vocês são os protagonistas, decidindo cada palavra, cada soco e cada decisão moral — ou imoral — que seus personagens tomam. Do outro lado da mesa está o Mestre. Ele não joga com um personagem, ele joga com todo o resto. O Mestre é o diretor, o clima, os vilões, a corporação e a própria sorte.</p>
+                </div>
+
+                <h2>Introdução</h2>
+                <p>Tudo mudou quando o céu mudou. Não foi uma explosão, foi uma reescrita. Quando aquele meteoro rasgou a atmosfera, ele não trouxe o fim do mundo, mas o início de algo novo. Partículas alienígenas se fundiram ao ar que respiramos, e silenciosamente, o DNA humano começou a evoluir.</p>
+                <p>Anos se passaram até o "Milagre de Denver": o primeiro recém-nascido a levitar fora do berço. Depois dele, vieram outros. E com o poder, veio o caos. Crimes que a polícia não podia impedir, vilões que nenhuma grade podia segurar. O mundo implorava por ordem.</p>
+                <p>Foi então que a <strong>Blue Sphere (BS)</strong> surgiu. Sob o lema "Assim como a atmosfera protege o Planeta, nós protegemos as Pessoas", a BS transformou o heroísmo em profissão, em marca, em lei. Hoje, 40% da humanidade carrega o gene. Os outros 60% apenas olham para o céu, rezando para que os "heróis" da BS estejam de bom humor.</p>
+                <p>Bem-vindo a <strong>ANTAGONISTAS</strong>.</p>
+            </section>
+
+            <section id="criacao">
+                <h2>Criando Herói</h2>
+                <p>Bem-vindo à Blue Sphere. Se você está lendo este documento, significa que você faz parte dos 40% da população mundial abençoada com o Dom da Atmosfera, ou é um dos poucos "Naturais" corajosos o suficiente para tentar acompanhar o ritmo dos deuses. A criação do seu personagem é o primeiro passo para sair do anonimato e entrar para a folha de pagamento da maior corporação de heróis do planeta.</p>
+                
+                <h4>A Construção da Marca</h4>
+                <p>Tudo começa pela sua identidade. Antes de salvar vidas, você precisa saber quem é a pessoa por trás da máscara. Defina seu <strong>Nome Civil</strong> e sua <strong>Idade</strong>, lembrando que o despertar dos poderes ocorre invariavelmente entre o nascimento e os sete anos de vida — se você é adulto, já carrega esse fardo há algum tempo. Em seguida, o mais importante para o departamento de marketing: o seu <strong>Codinome</strong>. Seja ele de Herói ou, para operações sancionadas especiais, de Vilão. Escolha algo que fique bem em manchetes.</p>
+                <p>Não se esqueça da estética. Descreva sua <strong>Aparência e Traje</strong>; o visual é metade do trabalho de um ícone. Junto a isso, estabeleça sua <strong>História e Personalidade</strong>. Como foi sua vida até chegar aos portões da BS? O que motiva você a lutar: justiça, fama, dinheiro ou apenas o prazer da violência?</p>
+
+                <h4>A Origem do Poder</h4>
+                <p>A grande maioria dos nossos agentes possui uma origem <strong>Biológica</strong>, fruto da alteração atmosférica global, mas aceitamos fontes <strong>Tecnológicas</strong> ou <strong>Místicas</strong> mediante avaliação. É aqui que você descreve, de forma narrativa, como o seu poder funciona e como ele se manifesta visualmente.</p>
+                <div class="box box-warn">
+                    <strong>Aviso:</strong> A Blue Sphere aceita inscrições de humanos comuns focados em treinamento tático e tecnologia. No entanto, esteja ciente de que a taxa de mortalidade para agentes não-dotados em campo supera os 90% no primeiro ano. Assine o termo de responsabilidade e prossiga por sua conta e risco.
+                </div>
+            </section>
+
+            <section id="atributos">
+                <h2>Atributos</h2>
+                <p>Para a Blue Sphere, o seu corpo é apenas o hardware. O que nos interessa é o output — o resultado final. O Protocolo de Distribuição define que todo agente recém-contratado chega de fábrica com uma configuração padrão: <strong>todos os cinco atributos iniciam em 1</strong>. A partir dessa base, a empresa libera um orçamento de <strong>03 PONTOS DE AJUSTE</strong> para você distribuir onde quiser. O limite de segurança inicial é 3 (Ápice Humano).</p>
+                <p>Caso julgue necessário, você está autorizado a drenar recursos. Você pode reduzir um atributo inicial de 1 para 0, recuperando aquele ponto para gastá-lo em outra especificação.</p>
+
+                <ul>
+                    <li><strong>1. MOBILIDADE (MOB):</strong> Velocidade de resposta, coordenação motora fina, evasão, acrobacia, pilotagem e pontaria.</li>
+                    <li><strong>2. FORÇA (FOR):</strong> Potência bruta. Capacidade de impor vontade física, levantar escombros e combate corpo a corpo.</li>
+                    <li><strong>3. RACIOCÍNIO (RAC):</strong> Capacidade de processamento. Conhecimento teórico, análise forense, medicina, tecnologia e tática.</li>
+                    <li><strong>4. CARISMA (CAR):</strong> Projeção psicológica e "Valor de Marca". Manipulação social, controle de imagem, vontade e sexto sentido.</li>
+                    <li><strong>5. INTEGRIDADE (ITG):</strong> Durabilidade do chassi. Resistência estrutural, saúde e capacidade de suportar dor e toxinas.</li>
+                </ul>
+            </section>
+
+            <section id="pericias">
+                <h2>Perícias</h2>
+                <p>Quando você quer realizar uma ação arriscada, o Mestre vai te dizer qual Atributo e qual Perícia usar. O valor do Atributo define quantos dados de 20 lados (d20) você joga. Você rola todos, ignora os baixos e pega apenas o maior número. A esse resultado, soma o bônus da Perícia.</p>
+                
+                <table>
+                    <tr><th>Nível</th><th>Bônus</th></tr>
+                    <tr><td>Destreinado</td><td>+0</td></tr>
+                    <tr><td>Treinado</td><td>+5</td></tr>
+                    <tr><td>Prática</td><td>+10</td></tr>
+                    <tr><td>Especializado</td><td>+15</td></tr>
+                </table>
+
+                <p><strong>Protocolo de Auxílio:</strong> Um aliado pode ajudar no teste. Ele rola também. O resultado dele não é somado integralmente; extrai-se apenas a Dezena para converter em bônus (Ex: rolou 18, dá +1; rolou 25, dá +2).</p>
+
+                <h3>Lista de Perícias</h3>
+                <ul>
+                    <li><strong>MOBILIDADE:</strong> Acrobacia, Crime, Furtividade, Iniciativa, Pilotagem, Pontaria, Reflexos.</li>
+                    <li><strong>FORÇA:</strong> Atletismo, Luta.</li>
+                    <li><strong>RACIOCÍNIO:</strong> Atualidades, Ciências, Investigação, Medicina, Poder, Sobrevivência, Tática, Tecnologia.</li>
+                    <li><strong>CARISMA:</strong> Adestramento, Artes, Diplomacia, Enganação, Intimidação, Intuição, Percepção, Religião, Vontade.</li>
+                    <li><strong>INTEGRIDADE:</strong> Fortitude.</li>
+                </ul>
+            </section>
+
+            <section id="iniciante">
+                <h2>Habilidades de Iniciante</h2>
+                <p>Os dados a seguir apresentam os Módulos Operacionais (MOD). Selecione o módulo que melhor define o seu ponto de partida.</p>
+                <div class="box box-note">
+                    <ul style="list-style:none; padding:0;">
+                        <li><strong>[MOD-01] Adaptação Ambiental:</strong> Respira em ambiente hostil e +1 Atributo.</li>
+                        <li><strong>[MOD-02] Suporte Logístico:</strong> +1 Item Extra e +02 Perícias Treinadas.</li>
+                        <li><strong>[MOD-03] Otimização Física:</strong> +01 Perícia Treinada e +1 Atributo.</li>
+                        <li><strong>[MOD-04] Subsídio Financeiro:</strong> Inicia com +50 Rerois e +01 Perícia Treinada.</li>
+                        <li><strong>[MOD-05] Investimento Corporal:</strong> +50 Rerois e +1 Atributo direto.</li>
+                        <li><strong>[MOD-06] Expansão Sensorial:</strong> +3 Percepção, rerola contra furtivos e +1 Atributo.</li>
+                        <li><strong>[MOD-07] Metabolismo Contínuo:</strong> Imune a sono e +01 Perícia Treinada.</li>
+                        <li><strong>[MOD-08] Blindagem Nativa:</strong> Resistência 10 contra um tipo de dano escolhido.</li>
+                        <li><strong>[MOD-09] Certificação de Combate:</strong> Proficiência em arma e +01 Perícia Treinada.</li>
+                        <li><strong>[MOD-10] Conexão Interespécie:</strong> +10 em testes sociais com animais.</li>
+                        <li><strong>[MOD-11] Protocolo de Manobra:</strong> Escolha uma Habilidade Tática para começar.</li>
+                        <li><strong>[MOD-12] Potencial de Fluxo:</strong> +15 Pontos de Fluxo extras para criação.</li>
+                        <li><strong>[MOD-13] Vínculo Externo:</strong> Uma vez por combate, clama ajuda de entidade.</li>
+                        <li><strong>[MOD-14] Autorização de Artefato:</strong> Começa com um Artefato Grau Leve.</li>
+                        <li><strong>[MOD-15] Percepção Alternativa:</strong> Cego mas enxerga tudo. +02 Perícias Treinadas.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="vida">
+                <h2>Vida e Cansaço</h2>
+                <p><strong>PONTOS DE VIDA (PV):</strong> Medida da saúde estrutural. Se chegar a zero, entra no estado de "Morrendo".</p>
+                <p class="box box-info">Cálculo: 20 + (Integridade x 2) + Bônus da Classe.</p>
+                
+                <p><strong>PONTOS DE CANSAÇO (PC):</strong> Medidor de superaquecimento. Começa em 0. Se atingir o limite, você desmaia.</p>
+                <p class="box box-info">Cálculo: 10 + (Maior entre Força ou Mobilidade x 3) + Bônus da Classe.</p>
+                <p>Ações físicas intensas e climas extremos geram fadiga progressiva.</p>
+            </section>
+
+            <section id="fontes">
+                <h2>Fontes de Poder (Classes)</h2>
+                
+                <h3>Tecnólogo</h3>
+                <p>Onde a genética falhou, a engenharia triunfou. Você compensa a falta de dons naturais com inteligência. Bônus: <strong>+2 PV por nível</strong>. Perícias iniciais: Raciocínio + 7.</p>
+                <ul>
+                    <li><strong>Engenharia Universal:</strong> Projeta Receitas com Pontos de Fluxo. Custo de manufatura em Peças Metálicas.</li>
+                    <li><strong>Energia (Bateria):</strong> Usa uma reserva de 100 Energia em vez de Cansaço físico.</li>
+                    <li><strong>Protocolo de Manutenção:</strong> Equipamentos Nível 1 têm reparo gratuito.</li>
+                </ul>
+
+                <h3>Monstruoso</h3>
+                <p>Hospedeiro de uma "Outra Coisa". Corpo extremamente resiliente. Bônus: <strong>+5 PV e +2 PC por nível</strong>. Perícias iniciais: Raciocínio + 2.</p>
+                <ul>
+                    <li><strong>Barra de Transformação:</strong> Teto de 75 pontos. Ativa ao atingir (75 - Nível).</li>
+                    <li><strong>Gatilhos:</strong> Reação à Dor, Instinto Predatório ou Despertar Latente.</li>
+                    <li><strong>Manifestação:</strong> Forma Parcial (humana) ou Completa (Bônus em atributos, mas gasta 5 pontos/rodada).</li>
+                    <li><strong>Colapso:</strong> Se exaurir transformado, a Entidade assume o controle (NPC).</li>
+                </ul>
+
+                <h3>Catalisador</h3>
+                <p>Integração perfeita entre DNA e anomalia. Bônus: <strong>+3 PV e +4 PC por nível</strong>. Perícias iniciais: Raciocínio + 4.</p>
+                <ul>
+                    <li><strong>Versatilidade Genética:</strong> Pode escolher 3 Tipos de módulos diferentes na criação.</li>
+                    <li><strong>Fluxo Extra:</strong> Começa com +5 Pontos de Fluxo.</li>
+                </ul>
+            </section>
+
+            <section id="nivel">
+                <h2>Nível e Progressão</h2>
+                <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Nível</th><th>Recompensas e Desbloqueios</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Hab. Iniciante, 60 PF, 2 Itens.</td></tr>
+                        <tr><td>2</td><td>+20 Pontos de Fluxo.</td></tr>
+                        <tr><td>3</td><td>Habilidade Tática.</td></tr>
+                        <tr><td>4</td><td>+25 Pontos de Fluxo.</td></tr>
+                        <tr><td>5</td><td>Acesso Tier 2 (Até 50 PF). +30 PF.</td></tr>
+                        <tr><td>6</td><td>Treinamento Tático I (Evoluir Perícias).</td></tr>
+                        <tr><td>7</td><td>Habilidade Tática.</td></tr>
+                        <tr><td>8</td><td>+45 Pontos de Fluxo.</td></tr>
+                        <tr><td>9</td><td>Upgrade Biológico (+1 Atributo).</td></tr>
+                        <tr><td>10</td><td>Acesso Tier 3 (Até 75 PF). +50 PF.</td></tr>
+                        <tr><td>11</td><td>Treinamento Especial (Cross-Class).</td></tr>
+                        <tr><td>12</td><td>+25 Pontos de Fluxo.</td></tr>
+                        <tr><td>13</td><td>Treinamento Tático II.</td></tr>
+                        <tr><td>14</td><td>Upgrade de Traje ou Arma (3 Melhorias).</td></tr>
+                        <tr><td>15</td><td>Acesso Tier 4 (Até 100 PF).</td></tr>
+                        <tr><td>16</td><td>Upgrade Biológico (+1 Atributo).</td></tr>
+                        <tr><td>17</td><td>+100 Pontos de Fluxo.</td></tr>
+                        <tr><td>18</td><td>Habilidade Tática Final.</td></tr>
+                        <tr><td>19</td><td>+100 Pontos de Fluxo.</td></tr>
+                        <tr><td>20</td><td>A ULTIMATE: Habilidade Lenda (125 PF, Custo Zero).</td></tr>
+                    </tbody>
+                </table>
+                </div>
+            </section>
+
+            <section id="engenharia">
+                <h2>Engenharia de Poderes</h2>
+                <p>Na Blue Sphere, poder não é um milagre; é um projeto. Você recebe um orçamento (PF) e decide como gastá-lo.</p>
+                
+                <h3>A Estrutura Básica (Chassi)</h3>
+                <ul>
+                    <li><strong>Tempo:</strong> Ação Padrão (0 PF), Ação Complexa (-8 PF), Reação (30 PF), Duração Fixa (5 PF).</li>
+                    <li><strong>Alcance:</strong> Pessoal (0), Toque (5), Curto 9m (10), Médio 18m (15), Longo 36m (20).</li>
+                    <li><strong>Área:</strong> Alvo Único (0), Eu Mesmo (5), Múltiplos (+10/extra), Área (+10/2m²).</li>
+                    <li><strong>Duração:</strong> Instantâneo (0), Sustentado (3), Passivo (30 - sem sobrecarga), Cena (50).</li>
+                </ul>
+
+                <h3>Potência (Dados)</h3>
+                <p>1d4 (4 PF), 1d6 (6 PF), 1d8 (8 PF), 1d10 (10 PF), 1d12 (12 PF), 1d20 (20 PF).</p>
+
+                <h3>Módulos de Efeito</h3>
+                <ul>
+                    <li><strong>Tipos de Dano:</strong> Físico (0), Elemental (2), Mental/Exótico (5), Plasmático (5).</li>
+                    <li><strong>Ofensivos:</strong> Projétil (0), Fluxo Contínuo/Dano Duplo (30), Corpo a Corpo Pesado (7), Vampirismo (40).</li>
+                    <li><strong>Condições:</strong> Incômodo (3), Tático (8), Controle (15).</li>
+                    <li><strong>Defensivos:</strong> Barreira (20), Resistência (12), Regeneração (25), Intangibilidade (16).</li>
+                    <li><strong>Mobilidade:</strong> Voo/Velocidade (10), Teleporte (15), Portais (25).</li>
+                    <li><strong>Utilidade:</strong> Telecinese (25), Controle Mental (25), Leitura Mental (20), Criação de Itens (25).</li>
+                </ul>
+
+                <h3>Sistema de Sobrecarga</h3>
+                <p class="box box-info"><strong>Troca Equivalente:</strong> Aumente voluntariamente o Custo de Ativação (PC) para baratear o Custo de Criação (PF).<br>Taxa: <strong>+1 PC de Uso = -3 PF de Custo.</strong></p>
+            </section>
+
+            <section id="dano">
+                <h2>Tipos de Dano e Condições</h2>
+                <p><strong>Danos:</strong> Balístico, Corte, Impacto, Perfuração, Eletricidade, Floral, Fogo, Gelo, Químico, Mental, Plasmático.</p>
+                
+                <h3>Condições</h3>
+                <ul>
+                    <li><strong>Atordoado:</strong> Perde o turno. Falha automática em testes físicos.</li>
+                    <li><strong>Cego:</strong> Falha em visão, -5 Defesa, 50% erro em ataques.</li>
+                    <li><strong>Surdo:</strong> Falha audição, -5 Iniciativa.</li>
+                    <li><strong>Confuso:</strong> Ataca alvo aleatório.</li>
+                    <li><strong>Vulnerável:</strong> Sofre 50% de dano extra.</li>
+                    <li><strong>Em Chamas:</strong> 1d6 dano de fogo/turno. Ação para apagar.</li>
+                    <li><strong>Sangrando:</strong> 1d4 dano/turno. Cura reduzida pela metade.</li>
+                    <li><strong>Envenenado:</strong> -2 em testes e 1d4-1 dano.</li>
+                    <li><strong>Supresso/Silenciado:</strong> Não pode usar habilidades com custo.</li>
+                    <li><strong>Exausto:</strong> Metade do deslocamento. Desmaia se gastar PC.</li>
+                    <li><strong>Fraco:</strong> Metade do dano em ataques de Força. -1d20 em testes de Força.</li>
+                </ul>
+            </section>
+
+            <section id="taticas">
+                <h2>Habilidades Táticas</h2>
+                <p>Ganhas nos níveis 3, 7, 11 e 18.</p>
+                
+                <h4>Tecnólogo</h4>
+                <ul>
+                    <li><strong>Baterizar:</strong> Usa bateria do inventário automaticamente se Energia zerar.</li>
+                    <li><strong>Desmanche:</strong> Ganha 4 sucatas instantaneamente.</li>
+                    <li><strong>Estoque de Energia:</strong> Cria 3 baterias com 1 sucata.</li>
+                    <li><strong>Patrocínio:</strong> Ganha 200 Rerois.</li>
+                    <li><strong>Treinamento Intensivo:</strong> Evolui perícias (Qtd = Raciocínio).</li>
+                </ul>
+                <h4>Monstruoso</h4>
+                <ul>
+                    <li><strong>Ataque Extra de Fúria:</strong> Zera a barra para ganhar ação extra.</li>
+                    <li><strong>Aumento Monstruoso:</strong> +10 na barra máxima.</li>
+                    <li><strong>Morte Negativa:</strong> Se cair a 0 PV, vira a besta automaticamente (1d4 chance controle).</li>
+                    <li><strong>Mudança de Gatilho:</strong> Altera o gatilho de transformação.</li>
+                    <li><strong>Troca de Atributo:</strong> Inverte atributos ao transformar.</li>
+                </ul>
+                <h4>Catalisador</h4>
+                <ul>
+                    <li><strong>Assinatura:</strong> -1 Custo de Cansaço em uma habilidade.</li>
+                    <li><strong>Gasto Físico:</strong> Pode pagar habilidades com Vida.</li>
+                    <li><strong>Remodelar:</strong> Recria uma habilidade recuperando 100% PF.</li>
+                    <li><strong>Sustentação Dupla:</strong> Mantém 2 efeitos sustentados.</li>
+                    <li><strong>Teleguia:</strong> Ignora cobertura.</li>
+                </ul>
+                <h4>Gerais</h4>
+                <ul>
+                    <li><strong>Começando Bem:</strong> 1ª habilidade do combate custa metade.</li>
+                    <li><strong>Empunhadura Dupla:</strong> Ataca com duas armas (-1 dado).</li>
+                    <li><strong>Mochila Otimizada:</strong> Item ocupa -1 espaço.</li>
+                    <li><strong>Potência Aprimorada:</strong> Soma atributo no teste de perícia (Nível 10+).</li>
+                    <li><strong>Restaurar:</strong> Revive com 1 PV uma vez na vida (Nível 13+).</li>
+                </ul>
+            </section>
+
+            <section id="parceiros">
+                <h2>Parceiros</h2>
+                <p>O Sistema de Parceiros abstrai a movimentação de aliados. No turno do jogador, ele emite um <strong>Comando de Suporte</strong> (Ação Livre).</p>
+                <ul>
+                    <li><strong>Habilidático:</strong> Usa uma habilidade da ficha dele.</li>
+                    <li><strong>Atributal:</strong> +1 em um Atributo para o jogador.</li>
+                    <li><strong>Pericial:</strong> +5 em um teste de perícia.</li>
+                    <li><strong>Danoso:</strong> +5 Dano no ataque do jogador.</li>
+                    <li><strong>Ameaçador:</strong> -2 na Margem de Ameaça do jogador.</li>
+                    <li><strong>Defensivo:</strong> +5 na Defesa do jogador.</li>
+                </ul>
+                <div class="box box-warn">
+                    <strong>Protocolo de Perigo (Regra do D4):</strong> Ao pedir ajuda, role 1d4. Se cair ÍMPAR, o parceiro sofre 40 de dano automático.
+                </div>
+            </section>
+
+            <section id="interludio">
+                <h2>Interlúdio</h2>
+                <p>Momentos de descanso. Curto (2 ações) ou Longo (3 ações).</p>
+                <p><strong>Recuperação (PV e PC):</strong> Precário (1d6-1), Normal (1d8), Confortável (1d10), Luxuoso (1d12+2).</p>
+                <p><strong>Menu de Atividades:</strong> Melhoria de Itens, Criar Habilidades, Reparo, Treinar (+1 Atributo temporário), Estudar (+1 Raciocínio temporário).</p>
+            </section>
+
+            <section id="emprego">
+                <h2>Emprego e Patente</h2>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Patente</th><th>Salário</th><th>Risco</th></tr>
+                    <tr><td>Iniciante</td><td>100 R$</td><td>Baixo</td></tr>
+                    <tr><td>Júnior</td><td>200 R$</td><td>Médio</td></tr>
+                    <tr><td>Sênior</td><td>300 R$</td><td>Alto</td></tr>
+                    <tr><td>Operador</td><td>400 R$</td><td>Crítico</td></tr>
+                    <tr><td>Especial</td><td>500 R$</td><td>Global</td></tr>
+                </table>
+                </div>
+                <p><strong>Renda Extra:</strong> +50 R$ se narrar trabalho civil. <strong>Custo de Vida:</strong> 50 R$/mês obrigatório.</p>
+            </section>
+
+            <section id="relacionamentos">
+                <h2>Relacionamentos</h2>
+                <p>Sinergia vai de 0 a 5. Dissonância de -1 a -5.</p>
+                <ul>
+                    <li><strong>Nível 1 (Aliados):</strong> Apoio concede +2 extra.</li>
+                    <li><strong>Nível 2 (Companheiros):</strong> Ataque Combinado sem penalidade.</li>
+                    <li><strong>Nível 3 (Laço Forte):</strong> Chance de não desmaiar (Elo Vital).</li>
+                    <li><strong>Nível 4 (Inseparáveis):</strong> Chance de ganhar ação no turno do parceiro.</li>
+                    <li><strong>Nível 5 (Sincronia):</strong> Combo Perfeito (+5 Acerto, -1 Margem Ameaça).</li>
+                </ul>
+                <p><strong>Consequências:</strong> Ruptura (ambos ficam Abalados). Luto (Fúria Cega ou Colapso).</p>
+            </section>
+
+            <section id="midia">
+                <h2>Reputação e Mídia</h2>
+                <p>O Índice de Imagem Pública (IIP) define bônus.</p>
+                <ul>
+                    <li><strong>Celebridade:</strong> +20% Rerois. Habilidade: Distração.</li>
+                    <li><strong>Vigilante:</strong> Vantagem em Intimidação/Crime. Habilidade: Aura de Terror.</li>
+                    <li><strong>Comandante:</strong> Acesso a itens de nível superior. Habilidade: Reforços.</li>
+                </ul>
+            </section>
+
+            <section id="equipamentos">
+                <h2>Equipamentos</h2>
+                <p>Carga = Força x 5 espaços. (Mínimo 3).</p>
+            </section>
+
+            <section id="arsenal">
+                <h2>Arsenal</h2>
+                
+                <h3>Iniciante (100 R$)</h3>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Arma</th><th>Dano</th><th>Crítico</th><th>Alcance</th><th>Tipo</th><th>Preço</th></tr>
+                    <tr><td>Faca</td><td>1d4</td><td>19/x2</td><td>Curto</td><td>Corte</td><td>20 R$</td></tr>
+                    <tr><td>Punhal</td><td>1d4</td><td>20/x3</td><td>-</td><td>Perfuração</td><td>25 R$</td></tr>
+                    <tr><td>Cajado</td><td>1d6</td><td>20/x2</td><td>-</td><td>Impacto</td><td>30 R$</td></tr>
+                    <tr><td>Lança</td><td>1d6</td><td>20/x2</td><td>Curto</td><td>Perfuração</td><td>40 R$</td></tr>
+                    <tr><td>Bastão</td><td>1d6/1d8</td><td>20/x2</td><td>-</td><td>Impacto</td><td>40 R$</td></tr>
+                    <tr><td>Machadinha</td><td>1d6</td><td>20/x3</td><td>Curto</td><td>Corte</td><td>45 R$</td></tr>
+                    <tr><td>Machete</td><td>1d6</td><td>19/x2</td><td>-</td><td>Corte</td><td>45 R$</td></tr>
+                    <tr><td>Martelo</td><td>1d6</td><td>20/x2</td><td>-</td><td>Impacto</td><td>50 R$</td></tr>
+                    <tr><td>Nunchaku</td><td>1d8</td><td>20/x2</td><td>-</td><td>Impacto</td><td>60 R$</td></tr>
+                    <tr><td>Corrente</td><td>1d8</td><td>20/x2</td><td>-</td><td>Impacto</td><td>70 R$</td></tr>
+                    <tr><td>Arco</td><td>1d6</td><td>20/x3</td><td>Médio</td><td>Perfuração</td><td>80 R$</td></tr>
+                    <tr><td>Besta</td><td>1d8</td><td>19/x2</td><td>Médio</td><td>Perfuração</td><td>100 R$</td></tr>
+                    <tr><td>Soqueira</td><td>1d4</td><td>19/x2</td><td>-</td><td>Impacto</td><td>15 R$</td></tr>
+                </table>
+                </div>
+
+                <h3>Júnior (200 R$)</h3>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Arma</th><th>Dano</th><th>Crítico</th><th>Tipo</th><th>Preço</th></tr>
+                    <tr><td>Florete</td><td>1d6</td><td>18/x2</td><td>Perfuração</td><td>120 R$</td></tr>
+                    <tr><td>Machado</td><td>1d8</td><td>20/x3</td><td>Corte</td><td>130 R$</td></tr>
+                    <tr><td>Maça</td><td>2d4</td><td>20/x2</td><td>Impacto</td><td>140 R$</td></tr>
+                    <tr><td>Espada</td><td>1d8/1d10</td><td>19/x2</td><td>Corte</td><td>150 R$</td></tr>
+                    <tr><td>Marreta</td><td>3d4</td><td>20/x2</td><td>Impacto</td><td>160 R$</td></tr>
+                    <tr><td>Katana</td><td>1d10</td><td>19/x2</td><td>Corte</td><td>180 R$</td></tr>
+                    <tr><td>Gadanho</td><td>2d4</td><td>20/x4</td><td>Corte</td><td>180 R$</td></tr>
+                    <tr><td>Arco Comp.</td><td>1d10</td><td>20/x3</td><td>Perfuração</td><td>180 R$</td></tr>
+                    <tr><td>Balestra</td><td>1d12</td><td>19/x2</td><td>Perfuração</td><td>200 R$</td></tr>
+                    <tr><td>Acha</td><td>1d12</td><td>20/x3</td><td>Corte</td><td>200 R$</td></tr>
+                    <tr><td>Montante</td><td>2d6</td><td>19/x2</td><td>Corte</td><td>200 R$</td></tr>
+                    <tr><td>Pistola</td><td>1d12</td><td>18/x2</td><td>Balístico</td><td>200 R$</td></tr>
+                    <tr><td>Revólver</td><td>2d6</td><td>19/x3</td><td>Balístico</td><td>210 R$</td></tr>
+                    <tr><td>Submetralhadora</td><td>2d6</td><td>19/x3</td><td>Balístico</td><td>220 R$</td></tr>
+                    <tr><td>Fuzil Caça</td><td>2d8</td><td>19/x3</td><td>Balístico</td><td>240 R$</td></tr>
+                    <tr><td>Motosserra</td><td>3d6</td><td>20/x2</td><td>Corte</td><td>250 R$</td></tr>
+                    <tr><td>Espingarda</td><td>4d6</td><td>20/x3</td><td>Balístico</td><td>280 R$</td></tr>
+                </table>
+                </div>
+
+                <h3>Sênior & Operador</h3>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Arma</th><th>Dano</th><th>Crítico</th><th>Tipo</th><th>Preço</th></tr>
+                    <tr><td>Fuzil Assalto</td><td>2d10</td><td>19/x3</td><td>Balístico</td><td>500 R$</td></tr>
+                    <tr><td>Metralhadora</td><td>2d12</td><td>19/x3</td><td>Balístico</td><td>650 R$</td></tr>
+                    <tr><td>Fuzil Precisão</td><td>2d10</td><td>19/x3</td><td>Balístico</td><td>800 R$</td></tr>
+                    <tr><td>Lança-Chamas</td><td>6d6</td><td>20/x2</td><td>Fogo</td><td>900 R$</td></tr>
+                    <tr><td>Bazuca</td><td>10d8</td><td>20/x2</td><td>Impacto</td><td>1.500 R$</td></tr>
+                </table>
+                </div>
+            </section>
+
+            <section id="utilitarios">
+                <h2>Utilitários & Artefatos</h2>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Item</th><th>Efeito</th><th>Preço</th></tr>
+                    <tr><td>Algemas de Aço</td><td>Imobiliza (DT 20/30).</td><td>50 R$</td></tr>
+                    <tr><td>Algemas Anti-Fluxo</td><td>Bloqueia poderes.</td><td>500 R$</td></tr>
+                    <tr><td>Arpéu</td><td>Linha 10m, +5 Acrobacia.</td><td>150 R$</td></tr>
+                    <tr><td>Binóculos</td><td>+5 Percepção distância.</td><td>100 R$</td></tr>
+                    <tr><td>Cinto Utilidades</td><td>Saque Livre 3 itens.</td><td>80 R$</td></tr>
+                    <tr><td>Corda (10m)</td><td>Rapel 300kg.</td><td>20 R$</td></tr>
+                    <tr><td>Lanterna</td><td>Cone 9m.</td><td>30 R$</td></tr>
+                    <tr><td>Máscara de Gás</td><td>Imune toxinas inaláveis.</td><td>120 R$</td></tr>
+                    <tr><td>Óculos Térmicos</td><td>Visão calor.</td><td>400 R$</td></tr>
+                    <tr><td>Pé de Cabra</td><td>+5 Força/Crime abrir.</td><td>40 R$</td></tr>
+                    <tr><td>Peças Metálicas</td><td>Material tecnólogo.</td><td>50 R$</td></tr>
+                </table>
+                </div>
+
+                <h3>Artefatos</h3>
+                <ul>
+                    <li><strong>Moeda da Sorte (100 R$):</strong> Rerola dado (Custa 5 PC).</li>
+                    <li><strong>Soro Grimm (150 R$):</strong> +300 PF temporários. Risco de Morte (-10 PV Perm).</li>
+                    <li><strong>Luva Reação (200 R$):</strong> Contra-ataque extra (Custa 5 PC).</li>
+                    <li><strong>Bolso Infinito (500 R$):</strong> +5 Espaços.</li>
+                    <li><strong>Máscara Berserk (800 R$):</strong> +1 FOR/ITG, ataque obrigatório.</li>
+                    <li><strong>Reator Arcano (2.000 R$):</strong> Energia infinita. Explosão se quebrar.</li>
+                    <li><strong>Colar Ancestral (3.000 R$):</strong> +200 PF criação. Vida cai pela metade.</li>
+                    <li><strong>Botas de Hércules:</strong> +10 Reflexos ou dobro deslocamento.</li>
+                    <li><strong>Anel Bestial:</strong> Invoca Kaiju.</li>
+                    <li><strong>Joia do Tempo:</strong> Ação Extra.</li>
+                </ul>
+            </section>
+
+            <section id="melhorias">
+                <h2>Melhorias e Infusões</h2>
+                <p>Custo: 1 Peça Metálica + 1 Ação Interlúdio + Teste Tec (DT 15).</p>
+                <ul>
+                    <li><strong>Potencializador:</strong> Aumenta o dado de dano em um passo.</li>
+                    <li><strong>Acertadora:</strong> +2 no Acerto.</li>
+                    <li><strong>Refinada:</strong> -2 na Margem de Ameaça.</li>
+                    <li><strong>Híbrida:</strong> Muda tipo de dano.</li>
+                    <li><strong>Pulso Pesado:</strong> +1 Multiplicador Crítico.</li>
+                    <li><strong>Calibrada:</strong> +1 Dado de dano (Pesada).</li>
+                    <li><strong>Silenciosa:</strong> Não revela posição.</li>
+                    <li><strong>Tranquilizante:</strong> -1 Custo Cansaço.</li>
+                    <li><strong>Flageladora:</strong> Causa sangramento.</li>
+                    <li><strong>Térmica:</strong> Mira infravermelho.</li>
+                    <li><strong>Saque:</strong> Saque livre.</li>
+                    <li><strong>Utilitário:</strong> +2 Perícia.</li>
+                </ul>
+
+                <h3>Infusões</h3>
+                <p>Exige Habilidade compatível e PF. Custo: Pontos de Fluxo.</p>
+                <ul>
+                    <li><strong>Munição Predadora (3 PF):</strong> Ignora Cobertura.</li>
+                    <li><strong>Olho da Verdade (4 PF):</strong> Ignora ilusões.</li>
+                    <li><strong>Lâmina Voraz (3 PF):</strong> +1d6 Dano Extra.</li>
+                    <li><strong>Hemofagia (6 PF):</strong> Sangramento acumulativo.</li>
+                    <li><strong>Onda de Choque (3 PF):</strong> Dano mínimo garantido.</li>
+                    <li><strong>Quebra-Guarda (5 PF):</strong> Desarma defesa.</li>
+                    <li><strong>Foco Cirúrgico (3 PF):</strong> -1 Margem Ameaça cumulativo.</li>
+                    <li><strong>Paralisia Estática (4 PF):</strong> Tira movimento.</li>
+                    <li><strong>Raiz Parasita (5 PF):</strong> Dano cura usuário.</li>
+                    <li><strong>Incendiária (4 PF):</strong> Em Chamas.</li>
+                    <li><strong>Zero Absoluto (4 PF):</strong> Quebra defesa (-2).</li>
+                    <li><strong>Corrosão (2 PF):</strong> -1 Defesa.</li>
+                    <li><strong>Trauma Sináptico (4 PF):</strong> Confusão.</li>
+                    <li><strong>Retorno Magnético (3 PF):</strong> Arma volta.</li>
+                    <li><strong>Capacitor de Fluxo (15 PF):</strong> Guarda habilidade na arma.</li>
+                </ul>
+            </section>
+
+            <section id="trajes">
+                <h2>Trajes</h2>
+                <p>Defesa Base +3. Se Vida < 25%, traje quebra (Defesa 0).</p>
+                <h3>Melhorias</h3>
+                <ul>
+                    <li><strong>Proteção Aprimorada:</strong> Defesa sobe para +5.</li>
+                    <li><strong>Proteção Revestida:</strong> Defesa +10 (Pesado).</li>
+                    <li><strong>Ergonomia:</strong> -1 Custo de Cansaço.</li>
+                    <li><strong>Blindagem Parruda:</strong> Chance anular crítico.</li>
+                    <li><strong>Acoplamento:</strong> Arma integrada.</li>
+                    <li><strong>Logística:</strong> Muda atributo de carga.</li>
+                    <li><strong>Nanofibra:</strong> +5 Furtividade/Crime.</li>
+                    <li><strong>Refrigeração/Aquecimento:</strong> Imune clima e resistência elemento.</li>
+                    <li><strong>Interface:</strong> Exclui aliados de área.</li>
+                    <li><strong>Exo-Estímulo:</strong> +1 Atributo.</li>
+                </ul>
+                <h3>Infusões</h3>
+                <ul>
+                    <li><strong>Campo Espelhado (6 PF):</strong> Reflete dano.</li>
+                    <li><strong>Protocolo Sniper (6 PF):</strong> Ação complexa, mira perfeita.</li>
+                    <li><strong>Coagulação (3 PF):</strong> Imune sangramento.</li>
+                    <li><strong>Aerodinâmica (3 PF):</strong> +5 Reflexos.</li>
+                    <li><strong>Malha Reativa (2 PF):</strong> Ganha PV temporário.</li>
+                    <li><strong>Estrutura Interna (3 PF):</strong> +5 Fortitude.</li>
+                    <li><strong>Sobrecarga Reflexo (11 PF):</strong> Esquiva total.</li>
+                    <li><strong>Armadura Espinhos (5 PF):</strong> Dano em quem ataca.</li>
+                    <li><strong>Bio-Filtro (1 PF):</strong> Imune gás.</li>
+                    <li><strong>Isolamento (3 PF):</strong> Imune fogo.</li>
+                    <li><strong>Sistema Detox (3 PF):</strong> Remove condições.</li>
+                    <li><strong>Gaiola Psíquica (2 PF):</strong> +10 Vontade.</li>
+                </ul>
+            </section>
+
+            <section id="combate">
+                <h2>Combate</h2>
+                <p><strong>Iniciativa:</strong> Teste de Mobilidade.</p>
+                <h3>Turno</h3>
+                <ul>
+                    <li><strong>Ação Padrão:</strong> Atacar, Habilidade.</li>
+                    <li><strong>Ação de Movimento:</strong> Deslocar, sacar.</li>
+                    <li><strong>Reação:</strong> Bloqueio (Reduz dano por Fortitude), Esquiva (Reflexos + Def/2), Contra-Ataque.</li>
+                </ul>
+                <h3>Acerto e Dano</h3>
+                <p>Teste de Ataque ≥ Defesa. Crítico: Dano Máximo. Ataque Certeiro: Penalidade dados, efeito extra.</p>
+                <p><strong>Combo:</strong> Gasta 3 PC e ação. Soma bônus.</p>
+                <p><strong>Morte:</strong> 0 PV = Incapacitado. -10 PV = Morte.</p>
+                <p><strong>Super Testes:</strong> Requisito (Poder) + Limite (Teste Resistência) + Execução (Perícia).</p>
+                <p><strong>Testes Perfeitos:</strong> Se tiver poder e DT for baixa, sucesso automático.</p>
+            </section>
+
+            <section id="kaijus">
+                <h2>Kaijus & NPCs</h2>
+                <div class="table-responsive">
+                <table>
+                    <tr><th>Categoria</th><th>PV</th><th>Defesa</th><th>Dano</th></tr>
+                    <tr><td>Tier 1 (Praga)</td><td>15</td><td>12</td><td>1d6</td></tr>
+                    <tr><td>Tier 2 (Predador)</td><td>50</td><td>16</td><td>2d6</td></tr>
+                    <tr><td>Tier 3 (Alfa)</td><td>120</td><td>20</td><td>3d8</td></tr>
+                    <tr><td>Tier 4 (Colosso)</td><td>300</td><td>24</td><td>4d10</td></tr>
+                    <tr><td>Tier 5 (Cataclisma)</td><td>1000+</td><td>30</td><td>10d10</td></tr>
+                </table>
+                </div>
+                <p><strong>NPCs:</strong> Civil (8 PV), Capanga (25 PV), Elite (70 PV), Chefe (180 PV).</p>
+                <p><strong>Arquétipos:</strong> Tanque (+Vida, -Def), Agressor (-Vida, +Dano), Velocista (+Def, 2 Reações), Conjurador (Range).</p>
+            </section>
+
+            <section id="universo">
+                <h2>Universo</h2>
+                <p><strong>2012:</strong> Meteoro. <strong>2026:</strong> Milagre de Denver. <strong>2610:</strong> Atualidade.</p>
+                <ul>
+                    <li><strong>Blue Sphere:</strong> Corporação de heróis. Plano Blue.</li>
+                    <li><strong>Blue Academy:</strong> Escola de heróis.</li>
+                    <li><strong>Retaliate:</strong> Sindicato do crime.</li>
+                    <li><strong>Eclipse League:</strong> Vilões de elite.</li>
+                    <li><strong>Gods:</strong> Culto supremacista.</li>
+                    <li><strong>Vigilantes:</strong> Heróis ilegais.</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fa-solid fa-list"></i>
+    </button>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function toggleMenu() {
+            const nav = document.getElementById('nav-menu');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
